@@ -1,0 +1,8 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"jsx": "react",
+		"sourceMap": true,
+		"target":"es6"
+	}
+}
