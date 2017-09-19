@@ -11,7 +11,8 @@ module.exports = {
 	output: {
 		filename: '[name].js',
 		publicPath: "",
-		path: path.resolve(__dirname, "dist")
+		path: path.resolve(__dirname, "dist"),
+		libraryTarget:'umd'
 	},
 	context: path.resolve(__dirname, 'src'),
 	resolve: {
@@ -46,19 +47,6 @@ module.exports = {
 		}),
 		new ExtractTextPlugin("[name].[contenthash:8].css"),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		new webpack.optimize.UglifyJsPlugin({
-			sourceMap: true,
-			compress: {
-				screw_ie8: true, // React doesn't support IE8
-				warnings: false
-			},
-			mangle: {
-				screw_ie8: true
-			},
-			output: {
-				comments: false,
-				screw_ie8: true
-			}
-		}),
+		
 	]
 };

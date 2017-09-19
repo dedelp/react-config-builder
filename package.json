@@ -1,6 +1,6 @@
 {
-  "name": "react-webpack2-typescript-hmr",
-  "version": "1.0.0",
+  "name": "react-config-builder",
+  "version": "1.0.1",
   "main": "dist/main.js",
   "repository": {},
   "license": "MIT",
