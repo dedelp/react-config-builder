@@ -1,16 +1,17 @@
 import * as React from 'react';
 import ConfigItems,{ConfigType} from '../dataTypes'
-import {ConfigEnum} from '../dataTypes/ConfigEnum'
+import {ConfigBoolean} from '../dataTypes/ConfigBoolean'
+import Toggle from 'react-toggle'
 
-interface EnumInputProps {
+interface BooleanInputProps {
 	Item,
 	update
 }
-interface EnumInputState {
-	value:string
+interface BooleanInputState {
+	value:boolean
 }
 
- class EnumInput extends React.Component<EnumInputProps, EnumInputState> {
+ class BooleanInput extends React.Component<BooleanInputProps, BooleanInputState> {
 	constructor(props) {
 		super(props)
 		this.state = {
@@ -21,7 +22,7 @@ interface EnumInputState {
 
 	updateValue(e) {
 		const {Item,update} = this.props
-		const value = e.target.value
+		const value = e.target.checked
 		this.setState(state => state.value=value)
 		this.props.update({[Item.getPath()]:value})
 		Item.Value = value
@@ -34,16 +35,12 @@ interface EnumInputState {
 			<div className="component">
 
 				<label>{Label}</label>
-				<select className="form-control" value={value} onChange={this.updateValue}>
-					{(Options ||[]).map(o => 
-						<option key={o.value} value={o.value}>
-							{o.display || o.value}
-						</option>
-					)}
-				</select>
+				<div>
+					<Toggle onChange={this.updateValue} checked={this.state.value} />	
+				</div>
 				<div className="description-text">{Description}</div>
 			</div>
 		)
 	}
 }
-export default EnumInput;
+export default BooleanInput;

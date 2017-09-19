@@ -4,13 +4,19 @@ import EnumInput from './EnumInput'
 import StringInput from './StringInput'
 import GroupWell from './GroupWell'
 import NumberRangeInput from './NumberRangeInput'
+import TabGroup from './TabGroup'
+import NumberInput from './NumberInput'
+import BooleanInput from './BooleanInput'
 
 
-var Components = {
-	'enum': EnumInput,
-	'string': StringInput,
-	'group': GroupWell,
-	'numberRange': NumberRangeInput
+var DefaultComponents = {
+	EnumInput,
+	StringInput,
+	GroupWell,
+	NumberRangeInput,
+	TabGroup,
+	NumberInput,
+	BooleanInput
 }
 export const SharedOptions = [
 	new ConfigString({
@@ -35,23 +41,31 @@ export const SharedOptions = [
 interface ComponentProps {
 	Item,
 	update,
-	Value
+	Value,
+	Components?
 }
-class ComponentWrapper extends React.Component<ComponentProps,{}> {
-	render() {
-		const {Type} = this.props.Item
-		var Component = null;
-		switch (Type) {
-			default:
-				if(!Components.hasOwnProperty(Type))
-				{
-					console.error('Could not find a Component for ConfigType:', Type)
-					break;
-				}
-				Component = React.createElement(Components[Type],Object.assign({},this.props,{Components:ComponentWrapper}))
+interface ComponentState {
+	Components
+}
+class ComponentWrapper extends React.Component<ComponentProps,ComponentState> {
+	constructor(props) {
+		super(props)
+		this.state = {
+			Components: Object.assign({},DefaultComponents,props.Components)
 		}
-		if (!Component) return <div>Unrecognized ConfigType: {Type}</div>
-		return Component
+	}
+	render() {
+		const  {DefaultComponent, Component} = this.props.Item
+		const {Components} = this.state
+		var type = Components.hasOwnProperty(Component) ? Component : DefaultComponent
+		if(!Components.hasOwnProperty(type))
+		{
+			console.error('Could not find a Component for ConfigType:', type)
+			return null;
+		}
+		var Element = React.createElement(Components[type],Object.assign({},this.props,{Components:ComponentWrapper}))
+		if (!Element) return <div>Unrecognized ConfigType: {type}</div>
+		return Element
 	}
 }
 

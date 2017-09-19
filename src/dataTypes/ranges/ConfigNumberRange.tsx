@@ -11,6 +11,7 @@ export class ConfigNumberRange extends ConfigRange<number> implements ConfigRang
 	constructor(options: ConfigNumberRangeOptions) {
 		super(ConfigType.numberRange, options);
 		this.Step = options.Step;
+		this.DefaultComponent = 'NumberRangeInput';
 	}
 	public export() {
 		return Object.assign({}, super.export(), { Step: this.Step })

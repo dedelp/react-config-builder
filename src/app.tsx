@@ -1,10 +1,11 @@
 import * as React from 'react';
-import './app.css';
+import './app.scss';
+import "react-toggle/style.css"
 import Editor from './Editor'
 import * as samples from './samples'
 
 
-var Config = samples.basicGroupSample.export();
+var Config = samples.tabGroupSample
 
 
 

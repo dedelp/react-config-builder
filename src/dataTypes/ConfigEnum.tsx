@@ -18,6 +18,7 @@ export class ConfigEnum extends ConfigItem implements ConfigEnumOptions {
 		super(ConfigType.enum, options);
 		this.Options = options.Options;
 		this.DefaultValue = options.DefaultValue;
+		this.DefaultComponent = 'EnumInput';
 	}
 	getOptions(): ConfigEnumOption[] {
 		return this.Options.map(option => ({ value: option.value, display: option.display || option.value }))

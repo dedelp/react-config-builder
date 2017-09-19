@@ -5,7 +5,7 @@ interface GroupWellProps {
 	Item,
 	update,
 	Components,
-	Results
+	Value
 }
 interface GroupWellState {
 	children
@@ -21,8 +21,8 @@ interface GroupWellState {
 	}
 
 	buildChildren() {
-		const {Item, Components, update,Results} = this.props
-		return Item.Children.map(c => React.createElement(Components,Object.assign({},{Item:c,update,Results,key:c.Label})) )
+		const {Item, Components, update,Value} = this.props
+		return Item.Children.map(c => React.createElement(Components,Object.assign({},{Item:c,update,Value,key:c.Label})) )
 	}
 
 	render() {

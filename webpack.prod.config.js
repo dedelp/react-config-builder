@@ -6,10 +6,10 @@ var path = require("path");
 module.exports = {
 	devtool: 'source-map',
 	entry: [
-		'./index.tsx'
+		'./bundle.tsx'
 	],
 	output: {
-		filename: '[name].[chunkhash:8].js',
+		filename: '[name].js',
 		publicPath: "",
 		path: path.resolve(__dirname, "dist")
 	},
@@ -21,13 +21,22 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.(ts|tsx)$/,
-				loader: 'ts-loader'
+				loader: ['babel-loader','ts-loader']
+			},
+			{
+				test: /\.scss$/,
+				loader: ExtractTextPlugin.extract({loader: ['style-loader', 'css-loader', 'sass-loader']})
 			},
 			{
 				test: /\.css$/,
 				loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader' })
 			},
 		]
+	},
+	externals: {
+		// Use external version of React
+		"react": "React",
+		"react-dom": "ReactDOM"
 	},
 	plugins: [
 		new webpack.DefinePlugin({
@@ -36,10 +45,6 @@ module.exports = {
 			}
 		}),
 		new ExtractTextPlugin("[name].[contenthash:8].css"),
-		new HtmlWebpackPlugin({
-			inject: true,
-			template: 'index.html'
-		}),
 		new webpack.optimize.OccurrenceOrderPlugin(),
 		new webpack.optimize.UglifyJsPlugin({
 			sourceMap: true,

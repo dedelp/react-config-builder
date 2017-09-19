@@ -45,28 +45,19 @@ class NumberRangeInput extends React.Component<NumberRangeInputProps, NumberRang
 		
 		this.checkRange = this.checkRange.bind(this)
 		this.onChange = this.onChange.bind(this)
-		this.onBlur = this.onBlur.bind(this)
-	}
+	}	
 
 	checkRange(val) {
 		return true
 	}
 
 	onChange(e) {
+		const {update,Item} = this.props
 		var {value} = e.target
 		var valid = this.checkRange(value)
 		this.setState(state => Object.assign({},state,{valid,value}))
-	}
-	onBlur(e) {
-		/*
-		const {update,Item} = this.props
-		var matches = this.checkMatch(e.target.value)
-		if(!matches) {
-			this.setState(state => state.valid = false) 
-		} else {
-			update({[Item.getPath()]:e.target.value})
-		}
-		*/
+		update({[Item.getPath()]:value})
+		Item.Value = value
 	}
 
 	render() {
@@ -83,7 +74,7 @@ class NumberRangeInput extends React.Component<NumberRangeInputProps, NumberRang
 			<div className="component">
 				<label>{Label}</label>
 				<div style={{fontSize:'2rem', textAlign:'center'}}>{value}</div>
-				<input type="range" className={"form-control "+(!valid ? 'error' : '')} {...inputProps} onChange={this.onChange} onBlur={this.onBlur} />
+				<input type="range" className={"form-control "+(!valid ? 'error' : '')} {...inputProps} onChange={this.onChange} />
 				<div className="description-text">{Description}</div>
 			</div>
 		)

@@ -49,12 +49,14 @@ class StringInput extends React.Component<StringInputProps, StringState> {
 	}
 	onBlur(e) {
 		const {update,Item} = this.props
-		var matches = this.checkMatch(e.target.value)
+		var {value} = e.target
+		var matches = this.checkMatch(value)
 		if(!matches) {
 			this.setState(state => state.valid = false) 
 		} else {
-			update({[Item.getPath()]:e.target.value})
+			update({[Item.getPath()]:value})
 		}
+		Item.Value = value
 	}
 
 	render() {

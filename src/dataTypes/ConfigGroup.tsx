@@ -12,6 +12,7 @@ export class ConfigGroup extends ConfigItem implements ConfigGroupOptions {
 	constructor(options: ConfigGroupOptions) {
 		super(ConfigType.group, options);
 		this.Children = options.Children.map(c => c instanceof ConfigItem ? c : importConfigItem(c));
+		this.DefaultComponent = 'GroupWell';
 		
 	}
 	public export() {

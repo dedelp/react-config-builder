@@ -10,6 +10,7 @@ export class ConfigBoolean extends ConfigItem implements ConfigBooleanOptions {
 	constructor(options: ConfigBooleanOptions) {
 		super(ConfigType.boolean, options);
 		this.DefaultValue = options.DefaultValue;
+		this.DefaultComponent = "BooleanInput";
 	}
 	public get Value(): boolean {
 		return this._Value || this._DefaultValue;

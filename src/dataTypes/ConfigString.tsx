@@ -12,6 +12,7 @@ export class ConfigString extends ConfigItem implements ConfigStringOptions {
 		super(ConfigType.string, options);
 		this.Matches = options.Matches;
 		this.DefaultValue = options.DefaultValue;
+		this.DefaultComponent = 'StringInput';
 	}
 	public get Value(): string {
 		return this._Value || this._DefaultValue;

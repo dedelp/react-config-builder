@@ -12,6 +12,7 @@ export class ConfigNumber extends ConfigItem {
 	constructor(options: ConfigNumberOptions) {
 		super(ConfigType.number, options);
 		this.DefaultValue = options.DefaultValue
+		this.DefaultComponent = 'NumberInput';
 	}
 	public get Value(): number {
 		return this._Value || this._DefaultValue;
