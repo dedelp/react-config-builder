@@ -22,15 +22,15 @@ module.exports = {
 		loaders: [
 			{
 				test: /\.(ts|tsx)$/,
-				loader: ['babel-loader','ts-loader']
+				use: ['babel-loader','ts-loader']
 			},
 			{
 				test: /\.scss$/,
-				loader: ExtractTextPlugin.extract({loader: ['style-loader', 'css-loader', 'sass-loader']})
+				use: ExtractTextPlugin.extract({fallback: 'style-loader', use: ['css-loader', 'sass-loader']})
 			},
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader' })
+				use: ExtractTextPlugin.extract({ fallback: 'style-loader', use: 'css-loader' })
 			},
 		]
 	},
@@ -45,8 +45,21 @@ module.exports = {
 				NODE_ENV: JSON.stringify('production')
 			}
 		}),
-		new ExtractTextPlugin("[name].[contenthash:8].css"),
+		new ExtractTextPlugin("[name].css"),
 		new webpack.optimize.OccurrenceOrderPlugin(),
-		
+		new webpack.optimize.UglifyJsPlugin({
+			sourceMap: true,
+			compress: {
+				screw_ie8: true, // React doesn't support IE8
+				warnings: false
+			},
+			mangle: {
+				screw_ie8: true
+			},
+			output: {
+				comments: false,
+				screw_ie8: true
+			}
+		}),
 	]
 };

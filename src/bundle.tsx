@@ -1,3 +1,7 @@
+
+import './app.scss';
+import "react-toggle/style.css"
+
 export {importConfigItem} from './dataTypes/'
 export {ConfigNumber} from './dataTypes/ConfigNumber'
 export {ConfigString} from './dataTypes/ConfigString'
