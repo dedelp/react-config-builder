@@ -66,7 +66,8 @@ export const inheritPathGroupSample = new ConfigGroup({
 	"Children" : [
 		numberSample,
 		enumSample,
-	]
+	],
+	"Component":"GroupWell"
 
 })
 

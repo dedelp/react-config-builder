@@ -1,6 +1,6 @@
 {
   "name": "react-config-builder",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "main": "dist/main.js",
   "repository": {},
   "license": "MIT",

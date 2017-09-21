@@ -20,7 +20,7 @@ export class ConfigGroup extends ConfigItem implements ConfigGroupOptions {
 			}
 			return child
 		});
-		this.DefaultComponent = 'GroupWell';
+		this.DefaultComponent = 'Group';
 		
 	}
 	public export() {
