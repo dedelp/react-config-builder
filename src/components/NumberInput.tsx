@@ -22,7 +22,6 @@ class NumberInput extends React.Component<NumberInputProps, NumberState> {
 		
 		this.checkNumber = this.checkNumber.bind(this)
 		this.onChange = this.onChange.bind(this)
-		this.onBlur = this.onBlur.bind(this)
 	}
 
 	checkNumber(val) {
@@ -31,19 +30,10 @@ class NumberInput extends React.Component<NumberInputProps, NumberState> {
 
 	onChange(e) {
 		var {value} = e.target
+		var {update,Item} = this.props
 		var matches = this.checkNumber(value)
 		this.setState(state => Object.assign({},state,{valid:!!matches,value}))
-	}
-	onBlur(e) {
-		const {update,Item} = this.props
-		var {value} = e.target
-		var matches = this.checkNumber(value)
-		if(!matches) {
-			this.setState(state => state.valid = false) 
-		} else {
-			update({[Item.getPath()]:value})
-		}
-		Item.Value = value
+		if(matches) update({[Item.getPath()]:value})
 	}
 
 	render() {
@@ -53,7 +43,7 @@ class NumberInput extends React.Component<NumberInputProps, NumberState> {
 		return (
 			<div className="component">
 				<label>{Label}</label>
-				<input type="number" className={"form-control "+validClass} value={value} onChange={this.onChange} onBlur={this.onBlur} />
+				<input type="number" className={"form-control "+validClass} value={value} onChange={this.onChange} />
 				<div className="description-text">{Description}</div>
 			</div>
 		)

@@ -11,7 +11,15 @@ export class ConfigGroup extends ConfigItem implements ConfigGroupOptions {
 	Children: ConfigItem[];
 	constructor(options: ConfigGroupOptions) {
 		super(ConfigType.group, options);
-		this.Children = options.Children.map(c => c instanceof ConfigItem ? c : importConfigItem(c));
+		this.Children = options.Children.map(c => {
+			var child = c instanceof ConfigItem ? c : importConfigItem(c)
+			if(this.getPath())
+			{
+				var childPath = child.getPath()
+				child.Path = childPath.startsWith(this.getPath()) ? childPath : this.getPath()+'.'+child.getPath()
+			}
+			return child
+		});
 		this.DefaultComponent = 'GroupWell';
 		
 	}
@@ -23,6 +31,7 @@ export class ConfigGroup extends ConfigItem implements ConfigGroupOptions {
 		this.Children.forEach(c => {
 			Object.assign(result,c.buildResult(Value))
 		})
+
 		return result
 	}
 }

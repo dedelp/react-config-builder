@@ -5,12 +5,15 @@ export interface ConfigStringOptions extends ConfigItemOptions {
 	DefaultValue: string;
 	Value?: string;
 	Matches?: string;
+	NotIn?: string[];
 }
 export class ConfigString extends ConfigItem implements ConfigStringOptions {
 	Matches?: string;
+	NotIn?: string[];
 	constructor(options: ConfigStringOptions) {
 		super(ConfigType.string, options);
 		this.Matches = options.Matches;
+		this.NotIn = options.NotIn;
 		this.DefaultValue = options.DefaultValue;
 		this.DefaultComponent = 'StringInput';
 	}
@@ -18,7 +21,11 @@ export class ConfigString extends ConfigItem implements ConfigStringOptions {
 		return this._Value || this._DefaultValue;
 	}
 	public set Value(value: string) {
-		this._Value = value;
+		if(~(this.NotIn||[]).indexOf(value))
+			throw("The value is not allowed")	
+		if(this.Matches && this.Matches !== '' && !value.match(new RegExp(this.Matches)))
+			throw("The value does not match the required format")
+		this._Value = value
 	}
 	public get DefaultValue(): string {
 		return this._DefaultValue;

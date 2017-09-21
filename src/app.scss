@@ -13,20 +13,20 @@ div {
 }
 
 .component {
+	box-sizing:border-box;
 	border:1px solid #ccc;
-	background: rgba(0,0,0,0.05);
 	border-radius:5px;
-	width:25%;
+	background: rgba(0,0,0,0.05);
 	padding:5px;
 	margin:5px;
-	box-sizing:border-box;
 }
 .group-well {
-	border:1px solid #ccc;
-	border-radius:5px;
 	padding:5px;
 	width:100%;
-	display:flex;
+	display:flex; 
+	.component {
+		width:25%;
+	}
 }
 
 .form-control {
@@ -59,6 +59,9 @@ div {
 .description-text {
 	color:#888;
 	font-size:12px;
+	&.d-inline {
+		margin-left:5px;
+	}
 }
 .app {
 	display:flex;
@@ -81,6 +84,9 @@ div {
 .configWrapper {
 	background-color: rgb(0, 43, 54);
 	max-width:33%;
+}
+.d-inline {
+	display:inline;
 }
 .tab-group {
 	width:100%;
@@ -106,9 +112,12 @@ div {
 			font-size:1rem;
 		}
 	}
-	& .tab-content > .group-well {
+	& .tab-content {
 		margin-top:-1px;
-		border-top-left-radius:0;
-		border-top-right-radius:0;
+		border:1px solid #ccc;
+		border-bottom-left-radius:5px;
+		border-bottom-right-radius:5px;
+		padding:5px;
+		width:100%;	
 	}
 }

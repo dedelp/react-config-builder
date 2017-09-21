@@ -17,6 +17,7 @@ export const ConfigType = strEnum([
 	"stringList",
 	"booleanList",
 	"enumList",
-	"groupList"
+	"groupList",
+	"enumGroup"
 ])
 export type ConfigType = keyof typeof ConfigType;

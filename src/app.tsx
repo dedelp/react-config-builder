@@ -15,7 +15,7 @@ class App extends React.Component<{}, {}> {
 
 	render() {
 		//return <span>{Config}</span>
-		return <Editor Item={Config} Value={{}}/>
+		return <Editor Item={Config} Value={{someVal:{stringSample:"this is a test"}}}/>
 		
 	}
 }

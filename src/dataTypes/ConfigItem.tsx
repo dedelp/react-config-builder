@@ -54,16 +54,8 @@ export class ConfigItem implements ConfigItemOptions {
 		return item;
 	}
 	public buildResult(Value) {
-		var obj = this.flatten(Value)
-		if(obj[this.getPath()]) this.Value=obj[this.getPath()]
+		if(Value[this.getPath()]) this.Value=Value[this.getPath()]
 		return {[this.getPath()]:this.Value}
 	}
-	public flatten = (object, separator = '.') => {
-		return Object.assign({}, ...function _flatten(child, path = []) {
-			return [].concat(...Object.keys(child).map(key => typeof child[key] === 'object'
-				? _flatten(child[key], path.concat([key]))
-				: ({ [path.concat([key]).join(separator)]: child[key] })
-			));
-		}(object));
-	}
+
 }

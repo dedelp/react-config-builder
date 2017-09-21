@@ -10,20 +10,19 @@ div {
   box-sizing: border-box; }
 
 .component {
+  box-sizing: border-box;
   border: 1px solid #ccc;
-  background: rgba(0, 0, 0, 0.05);
   border-radius: 5px;
-  width: 25%;
+  background: rgba(0, 0, 0, 0.05);
   padding: 5px;
-  margin: 5px;
-  box-sizing: border-box; }
+  margin: 5px; }
 
 .group-well {
-  border: 1px solid #ccc;
-  border-radius: 5px;
   padding: 5px;
   width: 100%;
   display: flex; }
+  .group-well .component {
+    width: 25%; }
 
 .form-control {
   box-sizing: border-box;
@@ -50,6 +49,8 @@ div {
 .description-text {
   color: #888;
   font-size: 12px; }
+  .description-text.d-inline {
+    margin-left: 5px; }
 
 .app {
   display: flex;
@@ -70,6 +71,9 @@ div {
 .configWrapper {
   background-color: #002b36;
   max-width: 33%; }
+
+.d-inline {
+  display: inline; }
 
 .tab-group {
   width: 100%;
@@ -92,10 +96,13 @@ div {
       font-size: 1rem; }
       .tab-group ol li.selected {
         border-bottom: 1px solid #FFF; }
-  .tab-group .tab-content > .group-well {
+  .tab-group .tab-content {
     margin-top: -1px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0; }
+    border: 1px solid #ccc;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 5px;
+    width: 100%; }
 .react-toggle {
   touch-action: pan-x;
 

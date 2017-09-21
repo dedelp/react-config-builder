@@ -7,6 +7,7 @@ import NumberRangeInput from './NumberRangeInput'
 import TabGroup from './TabGroup'
 import NumberInput from './NumberInput'
 import BooleanInput from './BooleanInput'
+import EnumGroup from './EnumGroup'
 
 
 var DefaultComponents = {
@@ -16,7 +17,8 @@ var DefaultComponents = {
 	NumberRangeInput,
 	TabGroup,
 	NumberInput,
-	BooleanInput
+	BooleanInput,
+	EnumGroup
 }
 export const SharedOptions = [
 	new ConfigString({

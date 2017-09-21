@@ -3,6 +3,7 @@ import ConfigItems, { ConfigType, importConfigItem } from './dataTypes'
 import {ConfigItem} from './dataTypes/ConfigItem'
 import Components from './components/'
 import JSONTree from 'react-json-tree'
+import * as util from './util/'
 
 interface ConfigEditorState {
 	Config: any;
@@ -26,10 +27,13 @@ class Editor extends React.Component<ConfigEditorProps, ConfigEditorState> {
 		this.updateResult = this.updateResult.bind(this)
 	}
 	componentWillMount() {
-		this.setState(state => state.Result = Object.assign({},state.Result,state.Item.buildResult(state.Result)))
+		this.setState(state => state.Result = util.inflate(Object.assign({},util.flatten(state.Result),state.Item.buildResult(state.Result))))
 	}
-	updateResult(update) {
-		this.setState(state => state.Result = Object.assign({},state.Result,update))
+	updateResult(update,rebuild) {
+		const {Item,Result} = this.state
+		var result = Object.assign({},util.flatten(Result),update)
+		if(rebuild) result = Item.buildResult(result)
+		this.setState(state => state.Result = util.inflate(result))
 	}
 	render() {
 		const { Config, Item, Result} = this.state
@@ -40,7 +44,7 @@ class Editor extends React.Component<ConfigEditorProps, ConfigEditorState> {
 					<JSONTree data={Config} invertTheme={false} />
 				</div>
 				<div className="appSection componentsWrapper">
-					<Components update={this.updateResult} Item={Item} Value={Value}/>
+					<Components update={this.updateResult} Item={Item} Value={util.flatten(this.state.Result)}/>
 				</div>
 				<div className="appSection resultWrapper">
 					<JSONTree data={Result} />

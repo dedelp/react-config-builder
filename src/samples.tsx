@@ -4,6 +4,7 @@ import {ConfigNumber} from './dataTypes/ConfigNumber'
 import {ConfigBoolean} from './dataTypes/ConfigBoolean'
 import {ConfigGroup} from './dataTypes/ConfigGroup'
 import {ConfigNumberRange} from './dataTypes/ranges/ConfigNumberRange'
+import {ConfigEnumGroup} from './dataTypes/groups/ConfigEnumGroup'
 
 export const enumSample = new ConfigEnum({
 	"Path": "enumSample",
@@ -18,7 +19,8 @@ export const stringSample = new ConfigString({
 	"Label": "Test String",
 	"Description": "Some information about the string",
 	"DefaultValue": "test the foobar",
-	"Matches": `test`
+	"Matches": `test`,
+	"NotIn":["Tester","Test man"]
 })
 
 export const numberSample = new ConfigNumber({
@@ -67,13 +69,38 @@ export const inheritPathGroupSample = new ConfigGroup({
 	]
 
 })
+
+export const configEnumGroup = new ConfigEnumGroup({
+	"Path": "enumGroup",
+	"Label": "Type",
+	"Description": "Enum group",
+	"Options" : [
+		{
+			"value":"Test",
+			"display":"Test",
+			"Children":[
+				numberRangeSample,
+				enumSample
+			]
+		},
+		{
+			"value":"Test2",
+			"display":"Test2",
+			"Children":[
+				numberSample
+			]
+		}
+	],
+	"DefaultValue": "Test"
+})
+
 export const tabGroupSample = new ConfigGroup({
 	"Path": null,
 	"Label": "Tab Group",
 	"Description": "A group of config Items",
 	"Component": "TabGroup",
 	"Children" : [
-		basicGroupSample,
-		inheritPathGroupSample
+		inheritPathGroupSample,
+		configEnumGroup
 	]
 })
