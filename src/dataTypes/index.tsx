@@ -21,10 +21,13 @@ const DefaultConfigItems =  {
 export {ConfigType};
 
 export const importConfigItem = (incoming,configItems?) => {
+	if(typeof incoming == 'string') incoming = JSON.parse(incoming)
 	const {Type} = incoming;
 	const ConfigItems = Object.assign({},DefaultConfigItems,configItems)
 	const options = Object.assign({},incoming);
 	delete options.Type;
+	if(!ConfigItems[Type])
+		throw(Type+" is not a valid ConfigType")
 	return new ConfigItems[Type](options)
 }
 

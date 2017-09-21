@@ -19,7 +19,11 @@ export class ConfigEnumGroup extends ConfigItem implements ConfigEnumGroupOption
 	Children: ConfigItem[];
 	constructor(options: ConfigEnumGroupOptions) {
 		super(ConfigType.enumGroup, options);
-		this.Options = options.Options;
+		this.Options = options.Options.map(o => ({
+			value:o.value,
+			display:o.display,
+			Children:(o.Children||[]).map(c => c instanceof ConfigItem ? c : importConfigItem(Object.assign({},c)))
+		}));
 		this.DefaultValue = options.DefaultValue;
 		this.DefaultComponent = 'EnumGroup';
 	}
@@ -46,6 +50,7 @@ export class ConfigEnumGroup extends ConfigItem implements ConfigEnumGroupOption
 		var option = this.Options.find(option => option.value == value)
 		if (!option) {
 			console.error(value + ' is not an accepted DefaultValue for"' + this.Label + '". Use one of:[' + this.Options.map(option => option.value).join(',') + ']');
+			return;
 		}
 		this.Children = option.Children
 		this._DefaultValue = value;
@@ -56,12 +61,15 @@ export class ConfigEnumGroup extends ConfigItem implements ConfigEnumGroupOption
 				value:o.value, 
 				display: o.display || o.value, 
 				Children: o.Children.map(c => c.export())
-			}))})
+			}))
+		})
 	}
 	public buildResult(Value) {
+		super.buildResult(Value)
 		var result = Value;
+
 		this.cleanUp(Value)
-		this.Children.forEach(c => Object.assign(result,c.buildResult(Value)))
+		;(this.Children||[]).forEach(c => Object.assign(result,c.buildResult(Value)))
 		return result
 	}
 	public cleanUp(Value) {
