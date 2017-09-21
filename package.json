@@ -1,9 +1,10 @@
 {
   "name": "react-config-builder",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "dist/main.js",
   "repository": {},
   "license": "MIT",
+  "url" : "https://github.com/dedelp/react-config-builder",
   "devDependencies": {
     "@types/webpack-env": "^1.13.0",
     "babel-core": "^6.26.0",
