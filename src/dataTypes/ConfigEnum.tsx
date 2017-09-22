@@ -9,14 +9,14 @@ export interface ConfigEnumOption {
 export interface ConfigEnumOptions extends ConfigItemOptions {
 	DefaultValue: string;
 	Value?: string;
-	Options: ConfigEnumOption[];
+	Options: (ConfigEnumOption | string)[];
 }
 
 export class ConfigEnum extends ConfigItem implements ConfigEnumOptions {
 	Options: ConfigEnumOption[];
 	constructor(options: ConfigEnumOptions) {
 		super(ConfigType.enum, options);
-		this.Options = options.Options;
+		this.Options = (options.Options||[]).map(o => typeof o === 'string' ? {value:o} : o);
 		this.DefaultValue = options.DefaultValue;
 		this.DefaultComponent = 'EnumInput';
 	}

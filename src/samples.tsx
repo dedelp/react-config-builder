@@ -5,13 +5,14 @@ import {ConfigBoolean} from './dataTypes/ConfigBoolean'
 import {ConfigGroup} from './dataTypes/ConfigGroup'
 import {ConfigNumberRange} from './dataTypes/ranges/ConfigNumberRange'
 import {ConfigEnumGroup} from './dataTypes/groups/ConfigEnumGroup'
+import {ConfigGroupList} from './dataTypes/lists/ConfigGroupList'
 
 export const enumSample = new ConfigEnum({
 	"Path": "enumSample",
 	"Label": "Test Enum",
 	"Description": "Some information about the enum",
 	"DefaultValue": "bar",
-	"Options": [{ "value": "foo", "display": "this is foo" }, { "value": "bar" }]
+	"Options": [{ "value": "foo", "display": "this is foo" }, { "value": "bar" }, "baz"]
 })
 
 export const stringSample = new ConfigString({
@@ -104,4 +105,53 @@ export const tabGroupSample = new ConfigGroup({
 		inheritPathGroupSample,
 		configEnumGroup
 	]
+})
+
+export const groupListSample = new ConfigGroupList({
+	"Path":"rows",
+	"Label":"Rows",
+	"Description":"A List of rows",
+	"Ordered": true,
+	"Options": [
+		new ConfigGroup({
+			"Path":"",
+			"Label":"Item 1",
+			"Description":"",
+			"Children":[
+				new ConfigString({
+					"Path":"display",
+					"Label":"Name",
+					"Description":"",
+					"DefaultValue":""
+				})
+			]
+		}),
+		new ConfigGroup({
+			"Path":"",
+			"Label":"Item 2",
+			"Description":"",
+			"Children":[
+				new ConfigString({
+					"Path":"display",
+					"Label":"Name",
+					"Description":"",
+					"DefaultValue":""
+				})
+			]
+		}),
+		new ConfigGroup({
+			"Path":"",
+			"Label":"Item 3",
+			"Description":"",
+			"Children":[
+				new ConfigString({
+					"Path":"display",
+					"Label":"Name",
+					"Description":"",
+					"DefaultValue":""
+				})
+			]
+		})
+	],
+	"Values": ['Item 1']
 })

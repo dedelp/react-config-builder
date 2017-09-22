@@ -4,9 +4,10 @@ import {ConfigGroup, ConfigGroupOptions} from '../ConfigGroup'
 import {ConfigList, ConfigListOptions} from './ConfigList'
 
 
-class ConfigGroupList extends ConfigList<ConfigGroup> {
+export class ConfigGroupList extends ConfigList<ConfigGroup> {
 	constructor(options: ConfigListOptions<ConfigGroup>) {
 		super(Object.assign({}, options, { Type: ConfigType.groupList }));
+		this.Component = 'GroupList'
 	}
 }
 

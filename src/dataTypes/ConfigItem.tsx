@@ -3,7 +3,7 @@ import {ConfigType} from './ConfigType'
 export interface ConfigItemOptions {
 	Label: string;
 	Description?: string;
-	Path: string | (() => string);
+	Path: string;
 	Component?: string;
 }
 
@@ -17,7 +17,8 @@ export class ConfigItem implements ConfigItemOptions {
 	DefaultComponent: string;
 	protected _Value?: any;
 	protected _DefaultValue: any;
-	protected _Path: string | (() => string);
+	public Path: string ;
+	public SubPath: string;
 	Parent?: ConfigItem;
 
 	constructor(type: ConfigType, options: ConfigItemOptions) {
@@ -27,14 +28,8 @@ export class ConfigItem implements ConfigItemOptions {
 		this.Path = options.Path;
 		if(options.Component) this.Component = options.Component;
 	}
-	public set Path(path: string | (() => string)) {
-		this._Path = path;
-	}
-	public get Path(): string | (() => string) {
-		return typeof this._Path == 'function' ? this._Path.apply(this) : this._Path;
-	}
 	public getPath(): string {
-		return typeof this._Path == 'function' ? this._Path.apply(this) : this._Path;
+		return (this.SubPath ? this.SubPath : "")+this.Path;
 	}
 	public get Component(): string {
 		return this._Component ? this._Component : this.DefaultComponent
@@ -45,7 +40,7 @@ export class ConfigItem implements ConfigItemOptions {
 	public export() {
 		let item = Object.assign({}, {
 			Type: this.Type,
-			Path: this._Path,
+			Path: this.Path,
 			Label: this.Label,
 			Description: this.Description,
 			DefaultValue: this._DefaultValue,

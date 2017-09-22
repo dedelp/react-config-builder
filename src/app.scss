@@ -129,3 +129,45 @@ div {
 		width:100%;	
 	}
 }
+.grouplist {
+	display:flex;
+	width:100%;
+	.grouplist-option-well {
+		display:flex;
+		flex-direction: column;
+		margin-right:10px;
+		.grouplist-options {
+			margin:0;
+			flex-grow:1;
+			border:1px solid #ccc;
+			list-style:none;
+			padding:0;
+			border-top-left-radius:5px;
+			border-top-right-radius:5px;
+			border-bottom:none;
+			li {
+				width:200px;
+				padding:5px 10px;
+				display:block;
+
+				&:hover {
+					background:rgba(0,0,0,0.2)
+				}
+				&.selected {
+					background:rgba(0,0,0,0.1)
+				}
+			}
+		}
+		select {
+			border:1px solid #ccc;
+			border-bottom-left-radius:5px;
+			border-bottom-right-radius:5px;
+			overflow:hidden
+		}
+	}
+	.grouplist-item-well {
+		flex-grow:1;
+		border:1px solid #ccc;
+		border-radius:5px;
+	}
+}
