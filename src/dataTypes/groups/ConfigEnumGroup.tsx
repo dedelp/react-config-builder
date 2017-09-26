@@ -1,5 +1,6 @@
 import {ConfigItem,ConfigItemOptions} from '../ConfigItem'
 import {ConfigType} from '../ConfigType'
+import {ConfigGroup, ConfigGroupOptions} from '../ConfigGroup'
 import {importConfigItem} from '../'
 
 export interface ConfigEnumGroupOption {
@@ -8,17 +9,17 @@ export interface ConfigEnumGroupOption {
 	Children: ConfigItem[];
 }
 
-export interface ConfigEnumGroupOptions extends ConfigItemOptions {
+export interface ConfigEnumGroupOptions extends ConfigGroupOptions {
 	DefaultValue: string;
 	Value?: string;
 	Options: ConfigEnumGroupOption[];
 }
 
-export class ConfigEnumGroup extends ConfigItem implements ConfigEnumGroupOptions {
+export class ConfigEnumGroup extends ConfigGroup implements ConfigEnumGroupOptions {
 	Options: ConfigEnumGroupOption[];
 	Children: ConfigItem[];
 	constructor(options: ConfigEnumGroupOptions) {
-		super(ConfigType.enumGroup, options);
+		super(options,ConfigType.enumGroup);
 		this.Options = options.Options.map(o => ({
 			value:o.value,
 			display:o.display,
@@ -62,23 +63,6 @@ export class ConfigEnumGroup extends ConfigItem implements ConfigEnumGroupOption
 				display: o.display || o.value, 
 				Children: o.Children.map(c => c.export())
 			}))
-		})
-	}
-	public buildResult(Value) {
-		super.buildResult(Value)
-		var result = Value;
-
-		this.cleanUp(Value)
-		;(this.Children||[]).forEach(c => Object.assign(result,c.buildResult(Value)))
-		return result
-	}
-	public cleanUp(Value) {
-		;(this.Options||[]).forEach(o => {
-			if(o.value !== this.Value) {
-				;(o.Children||[]).forEach( c => {
-					Object.keys(c.buildResult(Value)||{}).forEach(k => Value.hasOwnProperty(k) && delete Value[k])
-				})
-			}
 		})
 	}
 }

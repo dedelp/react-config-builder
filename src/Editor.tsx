@@ -36,13 +36,12 @@ class Editor extends React.Component<ConfigEditorProps, ConfigEditorState> {
 	componentWillMount() {
 		this.setState(state => {
 			state.Result = util.flatten(state.Initial)
-			state.Result = util.inflate(Object.assign({},state.Result,state.Item.buildResult(state.Result)))
 		})
 	}
 	updateResult(update,rebuild) {
 		const {Item,Result} = this.state
+		console.log('updateResult',update)
 		var result = Object.assign({},util.flatten(Result),update)
-		if(rebuild) result = Item.buildResult(result)
 		this.setState(state => state.Result = util.inflate(result))
 	}
 	updateConfig(e) {
@@ -51,7 +50,6 @@ class Editor extends React.Component<ConfigEditorProps, ConfigEditorState> {
 			state.Config = Object.assign({},config)
 			state.Item = importConfigItem(Object.assign({},config))
 			state.Result = util.flatten(Object.assign({},state.Initial))
-			state.Result = util.inflate(Object.assign({},state.Result,state.Item.buildResult(state.Result)))
 			state.updated = new Date()
 		})
 	}
@@ -60,7 +58,6 @@ class Editor extends React.Component<ConfigEditorProps, ConfigEditorState> {
 		this.setState(state => {
 			state.Initial = initial
 			state.Result = util.flatten(Object.assign({},initial))
-			state.Result = util.inflate(Object.assign({},state.Result,state.Item.buildResult(state.Result)))
 			state.updated=new Date()
 		})	
 	}

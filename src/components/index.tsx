@@ -1,5 +1,6 @@
 import * as React from 'react'
 import {ConfigString} from '../dataTypes/ConfigString'
+import {ConfigItem} from '../dataTypes/ConfigItem'
 import EnumInput from './EnumInput'
 import StringInput from './StringInput'
 import GroupWell from './GroupWell'
@@ -10,6 +11,7 @@ import BooleanInput from './BooleanInput'
 import EnumGroup from './EnumGroup'
 import GroupList from './GroupList'
 import Group from './Group'
+import Component,{ComponentState,ComponentProps} from './Component'
 
 
 var DefaultComponents = {
@@ -44,16 +46,17 @@ export const SharedOptions = [
 		"DefaultValue": ""
 	}),
 ]
-interface ComponentProps {
+
+interface ComponentWrapperProps {
 	Item,
 	update,
 	Value,
-	Components?
+	Components?:Component<ComponentProps,ComponentState>[]
 }
-interface ComponentState {
+interface ComponentWrapperState {
 	Components
 }
-class ComponentWrapper extends React.Component<ComponentProps,ComponentState> {
+class ComponentWrapper extends React.Component<ComponentWrapperProps,ComponentWrapperState> {
 	constructor(props) {
 		super(props)
 		this.state = {

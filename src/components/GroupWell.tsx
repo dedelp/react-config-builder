@@ -1,16 +1,9 @@
 import * as React from 'react';
-import Group from './Group'
+import Group,{GroupProps,GroupState} from './Group'
 import {ConfigGroup} from '../dataTypes/ConfigGroup'
 
 
- class GroupWell extends Group {
-	constructor(props) {
-		super(props)
-		this.state = {
-			children:this.buildChildren()
-		}
-		this.buildChildren = this.buildChildren.bind(this)
-	}
+ class GroupWell extends Group<GroupProps,GroupState> {
 
 	render() {
 		return (

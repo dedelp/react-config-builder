@@ -53,7 +53,6 @@ interface GroupState {
 		})
 	}
 	render() {
-		console.log(this.props.Item)
 		return (
 			<div className="grouplist">
 				<div className="grouplist-option-well">

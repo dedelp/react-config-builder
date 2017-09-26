@@ -1,31 +1,26 @@
 import * as React from 'react';
+import Group,{GroupProps,GroupState} from './Group'
 import {ConfigGroup} from '../dataTypes/ConfigGroup'
 
-interface TabGroupProps {
-	Item,
-	update,
-	Components,
-	Value
-}
-interface TabGroupState {
-	children,
+interface TabGroupState extends GroupState {
 	selectedIndex
 }
 
- class TabGroup extends React.Component<TabGroupProps, TabGroupState> {
+ class TabGroup extends Group<GroupProps, TabGroupState> {
 	element = null
 	constructor(props) {
 		super(props)
-		this.state = {
-			children:[],
-			selectedIndex:0
-		}
+
 		this.buildChildren = this.buildChildren.bind(this)
 		this.selectTab = this.selectTab.bind(this)
 	}
-	componentDidMount() {
-		this.setState(state => state.children = this.buildChildren())
+	getInitialState() {
+		return {
+			children:this.buildChildren(),
+			selectedIndex:0
+		} as TabGroupState
 	}
+
 	buildChildren() {
 		const {Item, Components, update,Value} = this.props
 		return Item.Children.map(c => {
@@ -40,27 +35,17 @@ interface TabGroupState {
 	}
 	render() {
 		const {children,selectedIndex} = this.state
-		if(!this.element) return <div className="tabgroup" ref={ref => this.element = ref} />
-		var width = (this.element || {}).offsetWidth
 		return (
 			<div className="tab-group" ref={ref => this.element = ref}>
-				{width > 300 ? (
-					<ol className="tabs">
-						{children.map((c,i) => (
-							<li key={c.settings.Label} className={"tab "+(i == this.state.selectedIndex ? "selected" : "")} onClick={e => this.selectTab(i)}>
-								{c.settings.Label}
-							</li>
-						))}
-					</ol>
-				) : (
-					<select className="form-control" value={selectedIndex} onChange={e => this.selectTab(e.target.value)}>
-						{children.map((c,i) => (
-							<option key={i} value={i}>{c.settings.Label}</option>
-						))}
-					</select>
-				)}
+				<ol className="tabs">
+					{children.map((c,i) => (
+						<li key={c.settings.Label} className={"tab "+(i == this.state.selectedIndex ? "selected" : "")} onClick={e => this.selectTab(i)}>
+							{c.settings.Label}
+						</li>
+					))}
+				</ol>
 				<div className="tab-content">
-					{this.state.children[this.state.selectedIndex].Element}
+					{children[selectedIndex].Element}
 				</div>
 			</div>
 		)

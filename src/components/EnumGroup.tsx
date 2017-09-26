@@ -1,32 +1,29 @@
 import * as React from 'react';
+import Group,{GroupProps,GroupState} from './Group'
 import ConfigItems,{ConfigType} from '../dataTypes'
 import {ConfigEnum} from '../dataTypes/ConfigEnum'
+import {ConfigEnumGroup} from '../dataTypes/groups/ConfigEnumGroup'
 
-interface EnumGroupProps {
-	Item,
-	update,
-	Components,
-	Value
+interface EnumGroupProps extends GroupProps {
+	Item:ConfigEnumGroup
 }
-interface EnumGroupState {
+
+interface EnumGroupState extends GroupState{
 	value:string
 }
 
- class EnumGroup extends React.Component<EnumGroupProps, EnumGroupState> {
+ class EnumGroup extends Group<EnumGroupProps, EnumGroupState> {
 	constructor(props) {
 		super(props)
-		this.state = {
-			value:props.Item.Value 
-		}
 		this.updateValue = this.updateValue.bind(this)
 		this.buildChildren = this.buildChildren.bind(this)
 	}
-/*	
-	componentWillUpdate(newProps,newState) {
-		if(newProps.Value !== this.props.Value)
-			newState.value = newProps.Item.Value
+	getInitialState() {
+		var state = super.getInitialState()
+		state.value=this.props.Item.Value
+		return state
 	}
-*/
+
 	updateValue(e) {
 		const {Item,update,Value} = this.props
 		const value = e.target.value
@@ -35,10 +32,6 @@ interface EnumGroupState {
 		this.props.update({[Item.getPath()]:value},true)
 	}
 
-	buildChildren() {
-		const {Item, Components, update,Value} = this.props
-		return (Item.Children||[]).map(c => React.createElement(Components,Object.assign({},{Item:c,update,Value,key:c.Label})) )
-	}
 	render() {
 		const {update, Item, Item: {Description,Options,Label,Value}} = this.props;
 		const {value} = this.state

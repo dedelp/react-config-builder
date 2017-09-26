@@ -1,38 +1,45 @@
 import * as React from 'react';
 import {ConfigGroup} from '../dataTypes/ConfigGroup'
+import {ConfigItem} from '../dataTypes/ConfigItem'
+import Component from './Component'
 
-interface GroupProps {
-	Item,
+export interface GroupProps {
+	Item:ConfigGroup,
 	update,
 	Components,
 	Value,
 }
-interface GroupState {
+export interface GroupState {
 	children
 }
 
- class Group extends React.Component<GroupProps, GroupState> {
+abstract class Group<T extends GroupProps ,T2 extends GroupState > extends Component<T, T2> {
 	constructor(props) {
 		super(props)
-		this.state = {
-			children:this.buildChildren()
-		}
+		this.state = this.getInitialState()
 		this.buildChildren = this.buildChildren.bind(this)
 		this.update = this.update.bind(this)
 	}
-
-	buildChildren() {
+	getInitialState() {
+		return {
+			children:this.buildChildren()
+		} as T2
+	}
+	componentWillUpdate(nextProps,nextState) {
+		super.componentWillUpdate(nextProps,nextState)
+		nextState.children = this.buildChildren()
+	}
+	buildChildren():any {
 		const {Item, Components, update,Value} = this.props
 		var path = this.props.Item.getPath()	
 		if(!path || path == "")
 			return Item.Children.map(c => React.createElement(Components,Object.assign({},{Item:c,update,Value,key:c.Label})) )
 		return Item.Children.map(c => {
-			//c.SubPath = path+'.'
-			React.createElement(Components,Object.assign({},{Item:c,update:this.update,Value,key:c.Label})) 
+			c.SubPath = path+'.'
+			return React.createElement(Components,Object.assign({},{Item:c,update:this.update.bind(this),Value,key:c.Label})) 
 		})
 	}
 	update(items) {
-		
 		var path = this.props.Item.getPath()
 		if(!path || path == "") {
 			this.props.update(items)

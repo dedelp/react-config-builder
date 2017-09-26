@@ -48,9 +48,5 @@ export class ConfigItem implements ConfigItemOptions {
 		});
 		return item;
 	}
-	public buildResult(Value) {
-		if(Value[this.getPath()]) this.Value=Value[this.getPath()]
-		return {[this.getPath()]:this.Value}
-	}
 
 }

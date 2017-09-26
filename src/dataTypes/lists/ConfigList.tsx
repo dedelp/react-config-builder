@@ -31,13 +31,6 @@ export class ConfigList<T extends ConfigItem> extends ConfigItem implements Conf
 	public findOption(key:string) {
 		return (this.Options||[]).find(o => o.Label === key)
 	}
-	public buildResult(Value) {
-		var result = {};
-		this.Children.forEach(c => {
-			Object.assign(result,c.buildResult(Value))
-		})
-		return result
-	}
 	public addOption(option:T) {
 		this.Options.push(option)
 	}
