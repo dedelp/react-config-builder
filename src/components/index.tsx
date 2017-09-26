@@ -10,8 +10,8 @@ import NumberInput from './NumberInput'
 import BooleanInput from './BooleanInput'
 import EnumGroup from './EnumGroup'
 import GroupList from './GroupList'
-import Group from './Group'
-import Component,{ComponentState,ComponentProps} from './Component'
+import Group,{GroupProps,GroupState} from './Group'
+import Component,{ComponentProps} from './Component'
 
 
 var DefaultComponents = {
@@ -51,7 +51,7 @@ interface ComponentWrapperProps {
 	Item,
 	update,
 	Value,
-	Components?:Component<ComponentProps,ComponentState>[]
+	Components?:Component<ComponentProps,{}>[]
 }
 interface ComponentWrapperState {
 	Components
@@ -64,16 +64,16 @@ class ComponentWrapper extends React.Component<ComponentWrapperProps,ComponentWr
 		}
 	}
 	render() {
+		console.log('Render',this.props.Item.Label)
 		const  {DefaultComponent, Component} = this.props.Item
 		const {Components} = this.state
 		var type = Components.hasOwnProperty(Component) ? Component : DefaultComponent
 		if(!Components.hasOwnProperty(type))
 		{
 			console.error('Could not find a Component for ConfigType:', type)
-			return null;
+			return <div>Unrecognized ConfigType: {type}</div>
 		}
 		var Element = React.createElement(Components[type],Object.assign({},this.props,{Components:ComponentWrapper}))
-		if (!Element) return <div>Unrecognized ConfigType: {type}</div>
 		return Element
 	}
 }

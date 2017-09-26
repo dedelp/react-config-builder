@@ -1,10 +1,14 @@
 import {ConfigType} from './ConfigType'
+import * as util from '../util'
 
 export interface ConfigItemOptions {
 	Label: string;
 	Description?: string;
 	Path: string;
 	Component?: string;
+	SubPath?:string;
+	Initial?:any;
+
 }
 
 export class ConfigItem implements ConfigItemOptions {
@@ -19,7 +23,6 @@ export class ConfigItem implements ConfigItemOptions {
 	protected _DefaultValue: any;
 	public Path: string ;
 	public SubPath: string;
-	Parent?: ConfigItem;
 
 	constructor(type: ConfigType, options: ConfigItemOptions) {
 		this.Type = type;
@@ -27,8 +30,10 @@ export class ConfigItem implements ConfigItemOptions {
 		this.Description = options.Description;
 		this.Path = options.Path;
 		if(options.Component) this.Component = options.Component;
+		this._Value = this.Path ? (options.Initial||{})[this.getPath()] : null
 	}
 	public getPath(): string {
+		if(!this.Path || this.Path =="") return null
 		return (this.SubPath ? this.SubPath : "")+this.Path;
 	}
 	public get Component(): string {

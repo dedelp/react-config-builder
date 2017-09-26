@@ -3,14 +3,14 @@ import ConfigItems,{ConfigType} from '../dataTypes'
 import {ConfigNumberRange} from '../dataTypes/ranges/ConfigNumberRange'
 import {ConfigNumber} from '../dataTypes/ConfigNumber'
 import {SharedOptions} from './'
+import Component,{ComponentProps} from './Component'
 
-interface NumberRangeInputProps {
+interface NumberRangeInputProps extends ComponentProps {
 	Item:ConfigNumberRange,
 	update
 }
 interface NumberRangeState {
-	valid:boolean,
-	value:string
+	valid:boolean
 }
 
 export const NumberInputOptions = [].concat(SharedOptions,[	
@@ -35,16 +35,16 @@ export const NumberInputOptions = [].concat(SharedOptions,[
 ]);
 
 
-class NumberRangeInput extends React.Component<NumberRangeInputProps, NumberRangeState> {
+class NumberRangeInput extends Component<NumberRangeInputProps, NumberRangeState> {
 	constructor(props) {
 		super(props)
 		this.state = {
 			valid:this.checkRange(props.Item.Value),
-			value:props.Item.Value
 		}
 		
 		this.checkRange = this.checkRange.bind(this)
 		this.onChange = this.onChange.bind(this)
+
 	}	
 
 	checkRange(val) {
@@ -62,9 +62,9 @@ class NumberRangeInput extends React.Component<NumberRangeInputProps, NumberRang
 
 	render() {
 		const {update, Item, Item: {Description,Label, MinValue,MaxValue,Step}} = this.props;
-		const {valid,value} = this.state
+		const {valid} = this.state
 		const inputProps = {
-			value,
+			value:Item.Value,
 			min:MinValue,
 			max:MaxValue,
 			step: Step
@@ -73,7 +73,7 @@ class NumberRangeInput extends React.Component<NumberRangeInputProps, NumberRang
 		return (
 			<div className="component">
 				<label>{Label}</label>
-				<div style={{fontSize:'2rem', textAlign:'center'}}>{value}</div>
+				<div style={{fontSize:'2rem', textAlign:'center'}}>{Item.Value}</div>
 				<input type="range" className={"form-control "+(!valid ? 'error' : '')} {...inputProps} onChange={this.onChange} />
 				<div className="description-text">{Description}</div>
 			</div>

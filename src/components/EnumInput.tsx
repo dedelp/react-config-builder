@@ -1,40 +1,31 @@
 import * as React from 'react';
 import ConfigItems,{ConfigType} from '../dataTypes'
 import {ConfigEnum} from '../dataTypes/ConfigEnum'
+import Component,{ComponentProps} from './Component'
 
-interface EnumInputProps {
-	Item,
-	update
-}
-interface EnumInputState {
-	value:string
+interface EnumInputProps extends ComponentProps {
+	Item: ConfigEnum
 }
 
- class EnumInput extends React.Component<EnumInputProps, EnumInputState> {
+ class EnumInput extends Component<EnumInputProps, {}> {
 	constructor(props) {
 		super(props)
-		this.state = {
-			value:props.Item.Value 
-		}
-		this.updateValue = this.updateValue.bind(this)
+		
+		this.onChange=this.onChange.bind(this)
 	}
 
-	updateValue(e) {
+	onChange(e) {
 		const {Item,update} = this.props
 		const value = e.target.value
-		this.setState(state => state.value=value)
 		this.props.update({[Item.getPath()]:value})
-		Item.Value = value
 	}
 
 	render() {
-		const {update, Item, Item: {Description,Options,Label}} = this.props;
-		const {value} = this.state
+		const {update, Item, Item: {Description,Options,Label,Value}} = this.props;
 		return (
 			<div className="component">
-
 				<label>{Label}</label>
-				<select className="form-control" value={value} onChange={this.updateValue}>
+				<select className="form-control" value={Value} onChange={this.onChange}>
 					{(Options ||[]).map(o => 
 						<option key={o.value} value={o.value}>
 							{o.display || o.value}

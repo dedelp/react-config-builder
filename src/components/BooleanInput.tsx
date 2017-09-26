@@ -2,41 +2,36 @@ import * as React from 'react';
 import ConfigItems,{ConfigType} from '../dataTypes'
 import {ConfigBoolean} from '../dataTypes/ConfigBoolean'
 import Toggle from 'react-toggle'
+import Component,{ComponentProps} from './Component'
 
-interface BooleanInputProps {
-	Item,
-	update
-}
+
 interface BooleanInputState {
-	value:boolean
 }
 
- class BooleanInput extends React.Component<BooleanInputProps, BooleanInputState> {
+ class BooleanInput extends Component<ComponentProps, BooleanInputState> {
 	constructor(props) {
 		super(props)
-		this.state = {
-			value:props.Item.Value 
-		}
-		this.updateValue = this.updateValue.bind(this)
+		this.onChange = this.onChange.bind(this)
+		setTimeout(() => {
+			this.props.update({[props.Item.getPath()]:true})
+			console.log("updated")
+		},2000);
 	}
 
-	updateValue(e) {
+	onChange(e) {
 		const {Item,update} = this.props
 		const value = e.target.checked
-		this.setState(state => state.value=value)
 		this.props.update({[Item.getPath()]:value})
-		Item.Value = value
 	}
 
 	render() {
-		const {update, Item, Item: {Description,Options,Label}} = this.props;
-		const {value} = this.state
+		const {update, Item, Item: {Description,Label}} = this.props;
 		return (
 			<div className="component">
 
 				<label>{Label}</label>
 				<div>
-					<Toggle onChange={this.updateValue} checked={this.state.value} />	
+					<Toggle onChange={this.onChange} checked={Item.Value} />	
 				</div>
 				<div className="description-text">{Description}</div>
 			</div>

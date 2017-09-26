@@ -4,31 +4,35 @@ import * as React from 'react'
 export interface ComponentProps {
 	Item:ConfigItem,
 	update,
-	Value,
+	Value:object,
 	Components
 }
-export interface ComponentState {
-}
 
-
-export default abstract class Component<T extends ComponentProps, T2 extends ComponentState> extends React.Component<T,T2> {
+export default abstract class Component<T extends ComponentProps, T2 extends object> extends React.Component<T,T2> {
 	constructor(props) {
 		super(props)
-	}
 
+		var {Item,Value,update} = this.props
+		console.log(Item.Label,'Constructor')
+	}
 	componentWillMount() {
-		var Item = this.props.Item
+		var {Item,Value,update} = this.props
 		var path = Item.getPath()
-		this.updateValue(this.props.Value[path] || Item.Value)
+		if(!path || path === "" || !Value) return
+		if(!Value.hasOwnProperty(path))
+		{
+			update({[path]:Item.Value})
+		} else {
+			this.updateValue(this.props.Value[path] || Item.Value)
+		}
 	}
 	componentWillUpdate(nextProps,nextState) {
 		var Item = nextProps.Item
 		var path = Item.getPath()
 		var newValue = (nextProps.Value||{})[path]
 		var oldValue = (this.props.Value||{})[path]
-		console.log('componentWillUpdate',nextProps.Item.Label,nextProps.Value,newValue)
 		if(newValue !== oldValue)
-			this.updateValue(newValue || Item.DefaultValue)
+			this.updateValue(newValue)
 	}
 	updateValue(value) {
 		var Item = this.props.Item

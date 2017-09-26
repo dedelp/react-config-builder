@@ -1,6 +1,5 @@
 import * as React from 'react';
 import {ConfigGroup} from '../dataTypes/ConfigGroup'
-import {ConfigItem} from '../dataTypes/ConfigItem'
 import Component from './Component'
 
 export interface GroupProps {
@@ -9,34 +8,41 @@ export interface GroupProps {
 	Components,
 	Value,
 }
+export interface GroupChild {
+	settings,
+	Element
+}
 export interface GroupState {
-	children
+	children:GroupChild[]
 }
 
-abstract class Group<T extends GroupProps ,T2 extends GroupState > extends Component<T, T2> {
+class Group<T extends GroupProps,T2 extends GroupState> extends Component<T, T2> {
 	constructor(props) {
 		super(props)
-		this.state = this.getInitialState()
+		this.state = {
+			children:this.buildChildren(props)
+		} as T2
 		this.buildChildren = this.buildChildren.bind(this)
 		this.update = this.update.bind(this)
 	}
-	getInitialState() {
-		return {
-			children:this.buildChildren()
-		} as T2
-	}
 	componentWillUpdate(nextProps,nextState) {
 		super.componentWillUpdate(nextProps,nextState)
-		nextState.children = this.buildChildren()
+		nextState.children=this.buildChildren(nextProps)
 	}
-	buildChildren():any {
-		const {Item, Components, update,Value} = this.props
-		var path = this.props.Item.getPath()	
-		if(!path || path == "")
-			return Item.Children.map(c => React.createElement(Components,Object.assign({},{Item:c,update,Value,key:c.Label})) )
+	buildChildren(props) {
+		const {Item, Components, update,Value} = props
+		var path = props.Item.getPath()
 		return Item.Children.map(c => {
-			c.SubPath = path+'.'
-			return React.createElement(Components,Object.assign({},{Item:c,update:this.update.bind(this),Value,key:c.Label})) 
+			var props = Object.assign({},{
+				Item:c,
+				update:(!path || path ==="") ? update : this.update.bind(this),
+				Value:(!path || path ==="") ? Value : Value[path],
+				key:c.Label
+			})
+			return {
+				settings:c,
+				Element:React.createElement(Components,props)
+			}
 		})
 	}
 	update(items) {
@@ -55,7 +61,7 @@ abstract class Group<T extends GroupProps ,T2 extends GroupState > extends Compo
 	render() {
 		return (
 			<div>
-				{this.state.children}
+				{this.state.children.map(c => c.Element)}
 			</div>
 		)
 	}

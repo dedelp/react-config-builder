@@ -7,6 +7,7 @@ import {ConfigGroup} from './ConfigGroup'
 import {ConfigList} from './lists/ConfigList'
 import {ConfigType} from './ConfigType'
 import {ConfigEnumGroup} from './groups/ConfigEnumGroup'
+import {ConfigGroupList} from './lists/ConfigGroupList'
 
 const DefaultConfigItems =  {
 	number: ConfigNumber,
@@ -15,7 +16,8 @@ const DefaultConfigItems =  {
 	boolean: ConfigBoolean,
 	numberRange: ConfigNumberRange,
 	group: ConfigGroup,
-	enumGroup: ConfigEnumGroup
+	enumGroup: ConfigEnumGroup,
+	groupList: ConfigGroupList
 }
 
 export {ConfigType};

@@ -43,7 +43,8 @@ export class ConfigList<T extends ConfigItem> extends ConfigItem implements Conf
 		if(this.getPath())
 		{
 			var childPath = child.getPath()
-			child.Path = childPath.startsWith(this.getPath()) ? childPath : this.getPath()+(childPath ? ('.'+i+'.'+child.getPath()) : '')
+			if(childPath)
+				child.Path = childPath.startsWith(this.getPath()) ? childPath : this.getPath()+(childPath ? ('.'+i+'.'+child.getPath()) : '')
 		}
 		this.Children.splice(i,0,child)
 		return child
