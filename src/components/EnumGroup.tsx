@@ -29,7 +29,8 @@ interface EnumGroupState extends GroupState{
 				Item:c,
 				update:update,
 				Value: Value,
-				key:c.Label
+				key:c.Label,
+				hasParent:true
 			})
 			return {
 				settings:c,

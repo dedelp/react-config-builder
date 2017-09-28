@@ -10,6 +10,7 @@ import NumberInput from './NumberInput'
 import BooleanInput from './BooleanInput'
 import EnumGroup from './EnumGroup'
 import GroupList from './GroupList'
+import StringList from './StringList'
 import Group,{GroupProps,GroupState} from './Group'
 import Component,{ComponentProps} from './Component'
 
@@ -24,7 +25,8 @@ var DefaultComponents = {
 	BooleanInput,
 	EnumGroup,
 	Group,
-	GroupList
+	GroupList,
+	StringList
 }
 export const SharedOptions = [
 	new ConfigString({
@@ -64,9 +66,9 @@ class ComponentWrapper extends React.Component<ComponentWrapperProps,ComponentWr
 		}
 	}
 	render() {
-		console.log('Render',this.props.Item.Label)
 		const  {DefaultComponent, Component} = this.props.Item
 		const {Components} = this.state
+		
 		var type = Components.hasOwnProperty(Component) ? Component : DefaultComponent
 		if(!Components.hasOwnProperty(type))
 		{

@@ -37,7 +37,8 @@ class Group<T extends GroupProps,T2 extends GroupState> extends Component<T, T2>
 				Item:c,
 				update:(!path || path ==="") ? update : this.update.bind(this),
 				Value:(!path || path ==="") ? Value : Value[path],
-				key:c.Label
+				key:c.Label,
+				hasParent:true
 			})
 			return {
 				settings:c,
@@ -45,16 +46,15 @@ class Group<T extends GroupProps,T2 extends GroupState> extends Component<T, T2>
 			}
 		})
 	}
-	update(items) {
+	update(items,i?:any) {
 		var path = this.props.Item.getPath()
 		if(!path || path == "") {
 			this.props.update(items)
 		} else {
-			var newItems = {}
-			Object.keys(items).forEach(k => {
-				newItems[k.startsWith(path) ? k : (path+'.'+k)] = items[k]
-			})
-			this.props.update(newItems)
+			this.props.update(Object.keys(items).reduce((res,key) => {
+				res[key.startsWith(path) ? key : (path+'.'+key)] = items[key]
+				return res
+			},{}))
 		}
 	}
 

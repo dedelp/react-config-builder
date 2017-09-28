@@ -21,10 +21,7 @@ class NumberInput extends Component<NumberInputProps, NumberInputState> {
 		
 		this.checkNumber = this.checkNumber.bind(this)
 		this.onChange = this.onChange.bind(this)
-		setTimeout(() => {
-			this.props.update({[props.Item.getPath()]:75})
-			console.log("updated")
-		},2000);
+
 	}
 
 	checkNumber(val) {
@@ -34,7 +31,9 @@ class NumberInput extends Component<NumberInputProps, NumberInputState> {
 	onChange(e) {
 		var {value} = e.target
 		var {update,Item} = this.props
+		if(value == "") return
 		var matches = this.checkNumber(value)
+		console.log({value,matches})
 		if(matches) update({[Item.getPath()]:value})
 	}
 

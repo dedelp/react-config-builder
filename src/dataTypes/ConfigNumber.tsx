@@ -11,7 +11,6 @@ export interface ConfigNumberOptions extends ConfigItemOptions {
 export class ConfigNumber extends ConfigItem {
 	constructor(options: ConfigNumberOptions) {
 		super(ConfigType.number, options);
-		this.DefaultValue = options.DefaultValue
 		this.DefaultComponent = 'NumberInput';
 	}
 	public get Value(): number {
@@ -20,11 +19,4 @@ export class ConfigNumber extends ConfigItem {
 	public set Value(value: number) {
 		this._Value = value;
 	}
-	public get DefaultValue(): number {
-		return this._DefaultValue;
-	}
-	public set DefaultValue(value: number) {
-		this._DefaultValue = value;
-	}
-
 }

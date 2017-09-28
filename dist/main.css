@@ -110,6 +110,72 @@ div {
     border-bottom-right-radius: 5px;
     padding: 5px;
     width: 100%; }
+
+.grouplist {
+  display: flex;
+  width: 100%; }
+  .grouplist .grouplist-option-well {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px; }
+    .grouplist .grouplist-option-well .grouplist-options {
+      margin: 0;
+      flex-grow: 1;
+      border: 1px solid #ccc;
+      list-style: none;
+      padding: 0;
+      border-radius: 5px; }
+      .grouplist .grouplist-option-well .grouplist-options.with-footer {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-bottom: none; }
+      .grouplist .grouplist-option-well .grouplist-options li {
+        width: 200px;
+        padding: 5px;
+        display: flex; }
+        .grouplist .grouplist-option-well .grouplist-options li:hover {
+          background: rgba(0, 0, 0, 0.2); }
+        .grouplist .grouplist-option-well .grouplist-options li.selected {
+          background: rgba(0, 0, 0, 0.1); }
+        .grouplist .grouplist-option-well .grouplist-options li .option-remove {
+          margin-right: 5px; }
+          .grouplist .grouplist-option-well .grouplist-options li .option-remove:hover {
+            cursor: pointer;
+            color: #F00; }
+        .grouplist .grouplist-option-well .grouplist-options li .option-key {
+          flex-grow: 1;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap; }
+          .grouplist .grouplist-option-well .grouplist-options li .option-key:hover {
+            cursor: pointer; }
+            .grouplist .grouplist-option-well .grouplist-options li .option-key:hover:before {
+              content: attr(title);
+              position: absolute;
+              background: black;
+              border: 1px solid #888;
+              color: #EEE;
+              border-radius: 5px;
+              padding: 5px;
+              margin-top: -15px;
+              margin-left: 5px; }
+        .grouplist .grouplist-option-well .grouplist-options li .option-move {
+          white-space: nowrap;
+          color: #667; }
+          .grouplist .grouplist-option-well .grouplist-options li .option-move div {
+            display: inline; }
+            .grouplist .grouplist-option-well .grouplist-options li .option-move div:hover {
+              cursor: pointer;
+              color: #000; }
+    .grouplist .grouplist-option-well select {
+      border: 1px solid #ccc;
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px;
+      overflow: hidden; }
+  .grouplist .grouplist-item-well {
+    flex-grow: 1;
+    border: 1px solid #ccc;
+    border-radius: 5px; }
 .react-toggle {
   touch-action: pan-x;
 

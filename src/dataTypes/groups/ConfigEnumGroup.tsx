@@ -48,6 +48,7 @@ export class ConfigEnumGroup extends ConfigGroup implements ConfigEnumGroupOptio
 		return this._DefaultValue;
 	}
 	public set DefaultValue(value: string) {
+		if(!this.Options) return
 		var option = this.Options.find(option => option.value == value)
 		if (!option) {
 			console.error(value + ' is not an accepted DefaultValue for"' + this.Label + '". Use one of:[' + this.Options.map(option => option.value).join(',') + ']');
@@ -64,5 +65,16 @@ export class ConfigEnumGroup extends ConfigGroup implements ConfigEnumGroupOptio
 				Children: o.Children.map(c => c.export())
 			}))
 		})
+	}
+	public updateValues(incoming,update) {
+		var path = this.getPath()
+		if(!path || path === "") return
+		if(!incoming || !incoming.hasOwnProperty(path))
+		{
+			update({[path]:this.Value})
+		} else {
+			this.Value = incoming[path]
+		}
+		this.Children.forEach(c => c.updateValues(incoming,update))
 	}
 }

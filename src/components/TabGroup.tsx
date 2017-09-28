@@ -14,7 +14,6 @@ interface TabGroupState extends GroupState{
 			children:this.state.children,
 			selectedIndex:0
 		} as TabGroupState
-		this.buildChildren = this.buildChildren.bind(this)
 		this.selectTab = this.selectTab.bind(this)
 	}
 	selectTab(i) {

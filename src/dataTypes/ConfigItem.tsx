@@ -5,6 +5,7 @@ export interface ConfigItemOptions {
 	Label: string;
 	Description?: string;
 	Path: string;
+	DefaultValue?: any;
 	Component?: string;
 	SubPath?:string;
 	Initial?:any;
@@ -14,7 +15,6 @@ export interface ConfigItemOptions {
 export class ConfigItem implements ConfigItemOptions {
 	Label: string;
 	Description: string;
-	Value: any;
 	_Component?: string;
 
 	Type: ConfigType;
@@ -28,6 +28,7 @@ export class ConfigItem implements ConfigItemOptions {
 		this.Type = type;
 		this.Label = options.Label;
 		this.Description = options.Description;
+		if(options.DefaultValue !== undefined) this.DefaultValue = options.DefaultValue
 		this.Path = options.Path;
 		if(options.Component) this.Component = options.Component;
 		this._Value = this.Path ? (options.Initial||{})[this.getPath()] : null
@@ -52,6 +53,28 @@ export class ConfigItem implements ConfigItemOptions {
 			Component: this.Component
 		});
 		return item;
+	}
+	public updateValues(incoming,update) {
+		var path = this.getPath()
+		if(!path || path === "") return
+		if(!incoming || !incoming.hasOwnProperty(path))
+		{
+			update({[path]:this.Value})
+		} else {
+			this.Value = incoming[path]
+		}
+	}
+	public get Value() {
+		return this._Value || this._DefaultValue;
+	}
+	public set Value(value) {
+		this._Value = value;
+	}
+	public get DefaultValue() {
+		return this._DefaultValue;
+	}
+	public set DefaultValue(value) {
+		this._DefaultValue = value;
 	}
 
 }

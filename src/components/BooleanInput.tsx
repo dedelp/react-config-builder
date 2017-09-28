@@ -12,10 +12,7 @@ interface BooleanInputState {
 	constructor(props) {
 		super(props)
 		this.onChange = this.onChange.bind(this)
-		setTimeout(() => {
-			this.props.update({[props.Item.getPath()]:true})
-			console.log("updated")
-		},2000);
+
 	}
 
 	onChange(e) {

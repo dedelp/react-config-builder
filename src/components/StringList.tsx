@@ -1,32 +1,26 @@
 import * as React from 'react';
-import {ConfigGroup} from '../dataTypes/ConfigGroup'
-import {ConfigGroupList} from '../dataTypes/lists/ConfigGroupList'
+import {ConfigStringList} from '../dataTypes/lists/ConfigStringList'
 import Component, {ComponentProps} from './Component'
 
-interface GroupListProps extends ComponentProps {
-	Item:ConfigGroupList
+interface StringListProps extends ComponentProps {
+	Item:ConfigStringList
 }
 
-interface GroupListState {
+interface StringListState {
 	children,
-	options,
 	selected
 }
 
- class GroupList extends Component<GroupListProps, GroupListState> {
+ class StringList extends Component<StringListProps, StringListState> {
 	constructor(props) {
 		super(props)
 		this.state = {
 			children:this.buildChildren(props),
-			options: this.buildOptions(),
 			selected:null
 		}
 		this.buildChildren = this.buildChildren.bind(this)
-		this.buildOptions = this.buildOptions.bind(this)
 		this.selectItem = this.selectItem.bind(this)
 		this.addItem = this.addItem.bind(this)
-		this.moveItemDown = this.moveItemDown.bind(this)
-		this.moveItemUp = this.moveItemUp.bind(this)
 		this.update = this.update.bind(this)
 	}
 	componentWillUpdate(nextProps,nextState) {
@@ -37,7 +31,7 @@ interface GroupListState {
 		const {Item,update} = this.props
 		const path = Item.getPath()
 		update(Object.keys(items).reduce((res,key) => {
-			res[key.startsWith(path) ? key : (path+'.'+i+'.'+key)] = items[key]
+			res[key.startsWith(path) ? key : (path+'.'+i)] = items[key]
 			return res
 		},{}))
 	}
@@ -48,7 +42,7 @@ interface GroupListState {
 			var props = Object.assign({},{
 				Item:c,
 				update: (values) => this.update(values,i),
-				Value: (Value[path]||[])[i]||{},
+				Value: ((Value||{})[path]||{})[i],
 				key:c.Label,
 				hasParent:true
 			})
@@ -58,28 +52,15 @@ interface GroupListState {
 			}
 		})
 	}
-	buildOptions() {
-		const {Item} = this.props
-		var options = {}
-		;(Item.Options||[]).forEach(o => {
-			if(!(Item.Children||[]).find(c => c.Label == o.Label))
-				options[o.Label] = o
-		})
-		return options
-	}
+
 	selectItem(i) {
 		this.setState(state => state.selected=i)
 	}
 	addItem(e) {
-		const {Item,update} = this.props
 		var index = 0
-		var obj = Item.Options[e.target.value]
-		var child = Item.insertAtIndex(obj,index)
-		var result = {}
-		child.updateValues({},(values) => Object.assign(result,values))
-		update({[Item.getPath()]:Item.Value})
+		this.props.Item.insertAtIndex(e.target.value,index)
+		this.props.update({[this.props.Item.getPath()]:this.props.Item.Value})
 		this.setState(state => {
-			state.children = this.buildChildren(this.props)
 			state.selected = index
 		})
 	}
@@ -109,19 +90,22 @@ interface GroupListState {
 	render() {
 		const {Item} = this.props
 		const {children,selected,} = this.state
-		var options = Item.Options
+		var options = Item.Options.reduce((res,curr) => {
+			if(!~Item.Value.indexOf(curr)) res.push(curr)
+			return res
+		},[])
 		var hasOptions = options.length > 0
 		return (
 			<div className="grouplist">
 				<div className="grouplist-option-well">
 					<ul className={"grouplist-options "+(hasOptions?"with-footer":"")}>
 						{(Item.Value||[]).map((c,i,arr) => 
-							<li key={c[Item.KeyPath]+i} className={selected===i ? "selected" : ""} onClick={e => this.selectItem(i)} >
+							<li key={c+i} className={selected===i ? "selected" : ""} onClick={e => this.selectItem(i)} >
 								<div className="option-remove" onClick={e => this.removeItem(e,i)}>
 									&times; 
 								</div>
-								<span className="option-key" title={c[Item.KeyPath]}>
-									{c[Item.KeyPath]}
+								<span className="option-key" title={c}>
+									{c}
 								</span>
 								<div className="option-move">
 									{i < arr.length-1 ? 
@@ -137,8 +121,8 @@ interface GroupListState {
 					{hasOptions ? 
 						<select value="Add" onChange={this.addItem}>
 							<option value="Add" disabled >Add</option>
-							{(options||[]).map((obj,i) => 
-								<option key={obj[Item.KeyPath]} value={i}>{obj[Item.KeyPath]}</option>
+							{(options||[]).map(key => 
+								<option key={key} value={key}>{key}</option>
 							)}
 						</select>
 					: null }
@@ -148,15 +132,11 @@ interface GroupListState {
 						<div key={selected}>
 							{children[selected] ? children[selected].Element : null}
 						</div>
-					) : (
-						<span>
-							Select an item on the left to edit
-						</span>
-					)}
+					) : null}
 				</div>
 
 			</div>
 		)
 	}
 }
-export default GroupList;
+export default StringList;

@@ -14,7 +14,6 @@ export class ConfigString extends ConfigItem implements ConfigStringOptions {
 		super(ConfigType.string, options);
 		this.Matches = options.Matches;
 		this.NotIn = options.NotIn;
-		this.DefaultValue = options.DefaultValue;
 		this.DefaultComponent = 'StringInput';
 	}
 	public get Value(): string {
@@ -26,11 +25,5 @@ export class ConfigString extends ConfigItem implements ConfigStringOptions {
 		if(this.Matches && this.Matches !== '' && !value.match(new RegExp(this.Matches)))
 			throw("The value does not match the required format")
 		this._Value = value
-	}
-	public get DefaultValue(): string {
-		return this._DefaultValue;
-	}
-	public set DefaultValue(value: string) {
-		this._DefaultValue = value;
 	}
 }

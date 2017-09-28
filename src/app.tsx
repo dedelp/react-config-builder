@@ -5,7 +5,7 @@ import Editor from './Editor'
 import * as samples from './samples'
 
 
-var Config = samples.tabGroupSample
+var Config = samples.stringListSample
 
 
 
@@ -15,7 +15,12 @@ class App extends React.Component<{}, {}> {
 
 	render() {
 		//return <span>{Config}</span>
-		return <Editor Item={Config} Value={{group:{numberSample:60}}}/>
+		return <Editor Item={Config} Value={{"rows": [
+			{
+			  "display": "Test 1",
+			  "width": 100
+			}
+		  ]}}/>
 		
 	}
 }

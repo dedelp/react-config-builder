@@ -142,20 +142,63 @@ div {
 			border:1px solid #ccc;
 			list-style:none;
 			padding:0;
-			border-top-left-radius:5px;
-			border-top-right-radius:5px;
-			border-bottom:none;
+			border-radius:5px;
+			&.with-footer {
+				border-bottom-left-radius:0;
+				border-bottom-right-radius:0;
+				border-bottom:none;
+			}
 			li {
 				width:200px;
-				padding:5px 10px;
-				display:block;
-
+				padding:5px;
+				display:flex;
+				
 				&:hover {
 					background:rgba(0,0,0,0.2)
 				}
 				&.selected {
 					background:rgba(0,0,0,0.1)
 				}
+				.option-remove {
+					margin-right:5px;
+					&:hover {
+						cursor:pointer;
+						color:#F00;
+					}
+				}
+				.option-key {
+					flex-grow:1;
+					overflow:hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					&:hover {
+						cursor:pointer;
+						&:before {
+							content: attr(title);
+							position:absolute;
+							background: rgba(0,0,0,1.0);
+							border:1px solid #888;
+							color:#EEE;
+							border-radius:5px;
+							padding:5px;
+							margin-top:-15px;
+							margin-left:5px;
+						}
+					}
+				}
+				.option-move {
+					white-space:nowrap;
+					color:#667;
+					div {
+						display:inline;
+						&:hover {
+							cursor:pointer;
+							color:#000;
+						}
+
+					}
+				}
+
 			}
 		}
 		select {

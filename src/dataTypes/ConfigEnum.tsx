@@ -17,7 +17,7 @@ export class ConfigEnum extends ConfigItem implements ConfigEnumOptions {
 	constructor(options: ConfigEnumOptions) {
 		super(ConfigType.enum, options);
 		this.Options = (options.Options||[]).map(o => typeof o === 'string' ? {value:o} : o);
-		this.DefaultValue = options.DefaultValue;
+		this.DefaultValue = options.DefaultValue
 		this.DefaultComponent = 'EnumInput';
 	}
 	getOptions(): ConfigEnumOption[] {
@@ -38,8 +38,9 @@ export class ConfigEnum extends ConfigItem implements ConfigEnumOptions {
 		return this._DefaultValue;
 	}
 	public set DefaultValue(value: string) {
-		if (!this.Options.find(option => option.value == value)) {
-			console.error(value + ' is not an accepted DefaultValue for"' + this.Label + '". Use one of:[' + this.Options.map(option => option.value).join(',') + ']');
+		if(!this.Options) return
+		if (!(this.Options||[]).find(option => option.value == value)) {
+			console.error(value + ' is not an accepted DefaultValue for"' + this.Label + '". Use one of:[' + (this.Options||[]).map(option => option.value).join(',') + ']');
 		}
 		this._DefaultValue = value;
 	}

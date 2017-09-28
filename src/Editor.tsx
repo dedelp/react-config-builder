@@ -39,8 +39,8 @@ class Editor extends React.Component<ConfigEditorProps, ConfigEditorState> {
 		this.setState(state => {
 			const {Item,Result} = state
 			var result = Object.assign({},util.flatten(Result),update)
-			console.log('----updateResult',update)
 			state.Result = util.inflate(result)
+			console.log('----updated',update,state.Result)
 		})
 	}
 	updateConfig(e) {

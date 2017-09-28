@@ -9,7 +9,8 @@ interface StringInputProps extends ComponentProps {
 	update
 }
 interface StringState {
-	valid:boolean
+	valid:boolean,
+	value:string
 }
 
 export const StringInputOptions = [].concat(SharedOptions,[	
@@ -27,15 +28,12 @@ class StringInput extends Component<StringInputProps, StringState> {
 		super(props)
 		this.state = {
 			valid:this.checkMatch(props.Item.Value),
+			value:props.Item.Value
 		}
 		
 		this.checkMatch = this.checkMatch.bind(this)
 		this.onChange = this.onChange.bind(this)
 		this.onBlur = this.onBlur.bind(this)
-		setTimeout(() => {
-			this.props.update({[props.Item.getPath()]:"This is a test"})
-			console.log("updated")
-		},2000);
 	}
 
 	checkMatch(val) {
@@ -64,12 +62,12 @@ class StringInput extends Component<StringInputProps, StringState> {
 
 	render() {
 		const {update, Item, Item: {Description,Label, Matches}} = this.props;
-		const {valid} = this.state
+		const {valid,value} = this.state
 		var validClass = !Matches ? '' : !valid ? 'error' : 'valid'
 		return (
 			<div className="component">
 				<label>{Label}</label>
-				<input type="textarea" className={"form-control "+validClass} value={Item.Value} onChange={this.onChange} onBlur={this.onBlur} />
+				<input type="textarea" className={"form-control "+validClass} value={value} onChange={this.onChange} onBlur={this.onBlur} />
 				<div className="description-text">{Description}</div>
 			</div>
 		)

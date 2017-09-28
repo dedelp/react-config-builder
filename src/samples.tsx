@@ -6,6 +6,7 @@ import {ConfigGroup} from './dataTypes/ConfigGroup'
 import {ConfigNumberRange} from './dataTypes/ranges/ConfigNumberRange'
 import {ConfigEnumGroup} from './dataTypes/groups/ConfigEnumGroup'
 import {ConfigGroupList} from './dataTypes/lists/ConfigGroupList'
+import {ConfigStringList} from './dataTypes/lists/ConfigStringList'
 
 export const enumSample = new ConfigEnum({
 	"Path": "enumSample",
@@ -60,13 +61,21 @@ export const basicGroupSample = new ConfigGroup({
 	]
 
 })
+export const stringListSample = new ConfigStringList({
+	"Path":"strings",
+	"Label":"Strings",
+	"Description":"A List of strings",
+	"Ordered": true,
+	"Options":["test1","test2","test3","test4","test5"],
+	"DefaultValue": ["test3","test1","test5"],
+	"Strict":false
+})
 export const inheritPathGroupSample = new ConfigGroup({
 	"Path": "group",
 	"Label": "Group 2",
 	"Description": "A group of config Items",
 	"Children" : [
-		numberSample,
-		enumSample,
+		stringListSample,
 	],
 	"Component":"GroupWell"
 
@@ -107,51 +116,31 @@ export const tabGroupSample = new ConfigGroup({
 	]
 })
 
-export const groupListSample = new ConfigGroupList({
+export const groupListSample =  new ConfigGroupList({
 	"Path":"rows",
 	"Label":"Rows",
 	"Description":"A List of rows",
 	"Ordered": true,
-	"Options": [
-		new ConfigGroup({
-			"Path":"",
-			"Label":"Item 1",
-			"Description":"",
-			"Children":[
-				new ConfigString({
-					"Path":"display",
-					"Label":"Name",
-					"Description":"",
-					"DefaultValue":""
-				})
-			]
-		}),
-		new ConfigGroup({
-			"Path":"",
-			"Label":"Item 2",
-			"Description":"",
-			"Children":[
-				new ConfigString({
-					"Path":"display",
-					"Label":"Name",
-					"Description":"",
-					"DefaultValue":""
-				})
-			]
-		}),
-		new ConfigGroup({
-			"Path":"",
-			"Label":"Item 3",
-			"Description":"",
-			"Children":[
-				new ConfigString({
-					"Path":"display",
-					"Label":"Name",
-					"Description":"",
-					"DefaultValue":""
-				})
-			]
-		})
-	],
-	"Values": ['Item 1']
+	"Template": new ConfigGroup({
+		"Path":"",
+		"Label":"",
+		"Description":"",
+		"Children":[
+			new ConfigString({
+				"Path":"display",
+				"Label":"Name",
+				"Description":"",
+				"DefaultValue":"Number 1"
+			}),
+			new ConfigNumber({
+				"Path":"width",
+				"Label":"Width",
+				"Description":"Width of the element in pixels",
+				"DefaultValue":10
+			})
+		]
+	}),
+	"Options":[{"display":"col1","width":10},{"display":"col2","width":20}],
+	"KeyPath":"display",
+	"DefaultValue": ["Number 1"]
 })
