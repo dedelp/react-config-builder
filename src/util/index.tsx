@@ -22,3 +22,6 @@ export const inflate = (object, separator = '.') => {
 	})
 	return result
 }
+export const getFromPath = (obj,path) => {
+	return path.split('.').reduce((res,curr) => res[curr] ? res[curr] : {},obj)
+}

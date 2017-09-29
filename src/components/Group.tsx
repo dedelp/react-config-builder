@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {ConfigGroup} from '../dataTypes/ConfigGroup'
 import Component from './Component'
+import * as util from '../util/'
 
 export interface GroupProps {
 	Item:ConfigGroup,
@@ -25,6 +26,7 @@ class Group<T extends GroupProps,T2 extends GroupState> extends Component<T, T2>
 		this.buildChildren = this.buildChildren.bind(this)
 		this.update = this.update.bind(this)
 	}
+
 	componentWillUpdate(nextProps,nextState) {
 		super.componentWillUpdate(nextProps,nextState)
 		nextState.children=this.buildChildren(nextProps)
@@ -36,7 +38,7 @@ class Group<T extends GroupProps,T2 extends GroupState> extends Component<T, T2>
 			var props = Object.assign({},{
 				Item:c,
 				update:(!path || path ==="") ? update : this.update.bind(this),
-				Value:(!path || path ==="") ? Value : Value[path],
+				Value:(!path || path ==="") ? Value : util.getFromPath(Value,path),
 				key:c.Label,
 				hasParent:true
 			})

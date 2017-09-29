@@ -1,6 +1,7 @@
 import {ConfigItem,ConfigItemOptions} from './ConfigItem'
 import {ConfigType} from './ConfigType'
 import {importConfigItem} from './'
+import * as util from '../util/'
 
 
 export interface ConfigGroupOptions extends ConfigItemOptions {
@@ -19,7 +20,7 @@ export class ConfigGroup extends ConfigItem implements ConfigGroupOptions {
 		var newUpdate = update
 		if(path && path !== "")
 		{
-			incoming = incoming[path]
+			incoming = util.getFromPath(incoming,path)
 			newUpdate=(values) => update(Object.keys(values || {}).reduce((res,key) => {
 				res[path+'.'+key] = values[key]
 				return res

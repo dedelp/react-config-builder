@@ -21,7 +21,7 @@ interface TabGroupState extends GroupState{
 	}
 	render() {
 		const {children,selectedIndex} = this.state
-		var width = (this.element || {}).offsetWidth || 300
+		var width = (this.element || {}).offsetWidth || 301
 		return (
 			<div className="tab-group" ref={ref => this.element = ref}>
 				{width > 300 ? (
