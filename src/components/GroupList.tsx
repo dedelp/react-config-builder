@@ -19,7 +19,7 @@ interface GroupListState {
 		this.state = {
 			children:this.buildChildren(props),
 			options: this.buildOptions(),
-			selected:null
+			selected: (props.Item.Value || []).length > 0 ? 0 : null
 		}
 		this.buildChildren = this.buildChildren.bind(this)
 		this.buildOptions = this.buildOptions.bind(this)
@@ -72,24 +72,31 @@ interface GroupListState {
 	}
 	addItem(e) {
 		const {Item,update} = this.props
-		var index = 0
+		var index = Item.Value.length
 		var obj = Item.Options[e.target.value]
 		var child = Item.insertAtIndex(obj,index)
-		var result = {}
-		child.updateValues({},(values) => Object.assign(result,values))
 		update({[Item.getPath()]:Item.Value})
 		this.setState(state => {
-			state.children = this.buildChildren(this.props)
-			state.selected = index
+			state.selected = index 
 		})
 	}
 	removeItem(e,i) {
 		e.preventDefault()
 		e.stopPropagation()
-		this.props.Item.removeChildAtIndex(i)
-		this.props.update({[this.props.Item.getPath()]:this.props.Item.Value})	
+		const {Item,update} = this.props
+		Item.removeChildAtIndex(i)
+		update({[Item.getPath()]:Item.Value})	
 		this.setState(state => {
-			state.selected = null
+			if(Item.Value.length == 0) 
+			{
+				state.selected = null
+			} else {
+				if(state.selected == i) {
+					state.selected = i < Item.Value.length ? i : Item.Value.length-1
+				} else {
+					if(i < state.selected) state.selected = state.selected-1
+				} 
+			}
 		})	
 	}
 	moveItemUp(e,i) {
@@ -97,14 +104,14 @@ interface GroupListState {
 		e.stopPropagation()
 		this.props.Item.moveChild(i,i-1)
 		this.props.update({[this.props.Item.getPath()]:this.props.Item.Value})	
-		this.setState(state => {state.selected = null})
+		this.setState(state => {state.selected = state.selected == i ? i - 1 : state.selected})
 	}
 	moveItemDown(e,i) {
 		e.preventDefault()
 		e.stopPropagation()
 		this.props.Item.moveChild(i,i+1)
 		this.props.update({[this.props.Item.getPath()]:this.props.Item.Value})	
-		this.setState(state => {state.selected = null})
+		this.setState(state => {state.selected = state.selected == i ? i + 1 : state.selected})
 	}
 	render() {
 		const {Item} = this.props
@@ -114,6 +121,9 @@ interface GroupListState {
 		return (
 			<div className="grouplist">
 				<div className="grouplist-option-well">
+					<div className="grouplist-header">
+						<label>{Item.Label}</label>
+					</div>
 					<ul className={"grouplist-options "+(hasOptions?"with-footer":"")}>
 						{(Item.Value||[]).map((c,i,arr) => 
 							<li key={c[Item.KeyPath]+i} className={selected===i ? "selected" : ""} onClick={e => this.selectItem(i)} >
@@ -123,14 +133,16 @@ interface GroupListState {
 								<span className="option-key" title={c[Item.KeyPath]}>
 									{c[Item.KeyPath]}
 								</span>
-								<div className="option-move">
-									{i < arr.length-1 ? 
-										<div onClick={e => this.moveItemDown(e,i)}>&#9660;</div>
-									: null }
-									{i > 0 ?
-										<div onClick={e => this.moveItemUp(e,i)}>&#9650;</div> 
-									: null }
-								</div>
+								{Item.Ordered ? (
+									<div className="option-move">
+										{i < arr.length-1 ? 
+											<div onClick={e => this.moveItemDown(e,i)}>&#9660;</div>
+										: null }
+										{i > 0 ?
+											<div onClick={e => this.moveItemUp(e,i)}>&#9650;</div> 
+										: null }
+									</div>
+								) : null}
 							</li>
 						)}
 					</ul>
@@ -145,7 +157,7 @@ interface GroupListState {
 				</div>
 				<div className="grouplist-item-well">
 					{selected || selected == 0 ? (
-						<div key={selected}>
+						<div key={selected+'.'+Item.Children[selected].Value[Item.KeyPath]}>
 							{children[selected] ? children[selected].Element : null}
 						</div>
 					) : (

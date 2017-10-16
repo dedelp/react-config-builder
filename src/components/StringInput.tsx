@@ -65,7 +65,7 @@ class StringInput extends Component<StringInputProps, StringState> {
 		const {valid,value} = this.state
 		var validClass = !Matches ? '' : !valid ? 'error' : 'valid'
 		return (
-			<div className="component">
+			<div key={Item.getPath()+'.'+Item.Label} className="component">
 				<label>{Label}</label>
 				<input type="textarea" className={"form-control "+validClass} value={value} onChange={this.onChange} onBlur={this.onBlur} />
 				<div className="description-text">{Description}</div>

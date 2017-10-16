@@ -12,12 +12,14 @@ export interface ConfigGroupListOptions extends ConfigListOptions<ConfigGroup>
 export class ConfigGroupList extends ConfigList<ConfigGroup> {
 	Template: ConfigGroup;
 	KeyPath:string;
+	update;
 
 	constructor(options: ConfigGroupListOptions) {
 		super(Object.assign({}, options, { Type: ConfigType.groupList }));
 		this.Component = 'GroupList'
 		this.Template = options.Template
 		this.KeyPath = options.KeyPath
+		this.update = () => {}
 	}
 	public validOption(obj) {
 		return !(this.Strict && !this.Options.find(o => JSON.stringify(o) === JSON.stringify(obj)))
@@ -25,8 +27,10 @@ export class ConfigGroupList extends ConfigList<ConfigGroup> {
 	public createOption(obj) {
 		if(!this.Template) return null
 		if(!this.validOption(obj)) return null
-		var option = importConfigItem(this.Template.export())
-		option.updateValues(obj,() => {})
+		var option = importConfigItem(this.Template instanceof ConfigItem ? this.Template.export() : this.Template)
+		var res = obj
+		option.updateValues(obj,(ops) => res = Object.assign({},res,ops))
+		option.Value=res
 		return option
 	}
 	public export() {

@@ -96,8 +96,11 @@ interface StringListState {
 		},[])
 		var hasOptions = options.length > 0
 		return (
-			<div className="grouplist">
+			<div className={"grouplist "+(Item.Strict ? "no-editor" : "")}>
 				<div className="grouplist-option-well">
+					<div className="grouplist-header">
+						<label>{Item.Label}</label>
+					</div>
 					<ul className={"grouplist-options "+(hasOptions?"with-footer":"")}>
 						{(Item.Value||[]).map((c,i,arr) => 
 							<li key={c+i} className={selected===i ? "selected" : ""} onClick={e => this.selectItem(i)} >
@@ -107,14 +110,16 @@ interface StringListState {
 								<span className="option-key" title={c}>
 									{c}
 								</span>
-								<div className="option-move">
-									{i < arr.length-1 ? 
-										<div onClick={e => this.moveItemDown(e,i)}>&#9660;</div>
-									: null }
-									{i > 0 ?
-										<div onClick={e => this.moveItemUp(e,i)}>&#9650;</div> 
-									: null }
-								</div>
+								{Item.Ordered ? (
+									<div className="option-move">
+										{i < arr.length-1 ? 
+											<div onClick={e => this.moveItemDown(e,i)}>&#9660;</div>
+										: null }
+										{i > 0 ?
+											<div onClick={e => this.moveItemUp(e,i)}>&#9650;</div> 
+										: null }
+									</div>
+								) : null}
 							</li>
 						)}
 					</ul>
@@ -127,13 +132,15 @@ interface StringListState {
 						</select>
 					: null }
 				</div>
-				<div className="grouplist-item-well">
-					{selected || selected == 0 ? (
-						<div key={selected}>
-							{children[selected] ? children[selected].Element : null}
-						</div>
-					) : null}
-				</div>
+				{!Item.Strict ? (
+					<div className="grouplist-item-well">
+						{selected || selected == 0 ? (
+							<div key={selected}>
+								{children[selected] ? children[selected].Element : null}
+							</div>
+						) : null}
+					</div>
+				) : null}
 
 			</div>
 		)

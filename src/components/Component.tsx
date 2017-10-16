@@ -23,7 +23,6 @@ export default abstract class Component<T extends ComponentProps, T2 extends obj
 		var path = Item.getPath()
 		var newValue = (nextProps.Value||{})[path]
 		var oldValue = (this.props.Value||{})[path]
-		console.log(Item.Label,path,nextProps.Value,newValue,oldValue)
 		if(newValue !== oldValue)
 			this.updateValue(newValue)
 	}

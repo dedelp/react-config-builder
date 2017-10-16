@@ -3,7 +3,6 @@ import ConfigItems,{ConfigType} from '../dataTypes'
 import {ConfigNumber} from '../dataTypes/ConfigNumber'
 import {SharedOptions} from './'
 import Component, {ComponentProps} from './Component'
-console.log({Component})
 
 interface NumberInputProps extends ComponentProps{
 	Item:ConfigNumber
@@ -33,7 +32,6 @@ class NumberInput extends Component<NumberInputProps, NumberInputState> {
 		var {update,Item} = this.props
 		if(value == "") return
 		var matches = this.checkNumber(value)
-		console.log({value,matches})
 		if(matches) update({[Item.getPath()]:value})
 	}
 

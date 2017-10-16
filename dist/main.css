@@ -113,18 +113,34 @@ div {
 
 .grouplist {
   display: flex;
-  width: 100%; }
+  flex-direction: row; }
+  .grouplist.no-editor {
+    margin-right: 0;
+    flex-grow: 1; }
+    .grouplist.no-editor .grouplist-option-well {
+      flex-grow: 1; }
+      .grouplist.no-editor .grouplist-option-well .grouplist-options li {
+        width: 100%;
+        min-width: 200px; }
   .grouplist .grouplist-option-well {
     display: flex;
     flex-direction: column;
     margin-right: 10px; }
+    .grouplist .grouplist-option-well .grouplist-header {
+      border: 1px solid #ccc;
+      border-bottom: none;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      padding: 5px;
+      background: rgba(0, 0, 0, 0.05); }
     .grouplist .grouplist-option-well .grouplist-options {
       margin: 0;
       flex-grow: 1;
       border: 1px solid #ccc;
       list-style: none;
       padding: 0;
-      border-radius: 5px; }
+      border-bottom-left-radius: 5px;
+      border-bottom-right-radius: 5px; }
       .grouplist .grouplist-option-well .grouplist-options.with-footer {
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
@@ -132,7 +148,8 @@ div {
       .grouplist .grouplist-option-well .grouplist-options li {
         width: 200px;
         padding: 5px;
-        display: flex; }
+        display: flex;
+        box-sizing: border-box; }
         .grouplist .grouplist-option-well .grouplist-options li:hover {
           background: rgba(0, 0, 0, 0.2); }
         .grouplist .grouplist-option-well .grouplist-options li.selected {

@@ -56,8 +56,8 @@ export class ConfigList<T extends ConfigItem> extends ConfigItem implements Conf
 		return null
 	}
 	public insertAtIndex(label:string,index:number):any {
-		this.Value.splice(index,0,label)
 		var child = this.createOption(label)
+		this.Value.splice(index,0,child.Value)
 		if(child) {
 			this.insertChildAtIndex(child,index)
 			return child
@@ -72,6 +72,7 @@ export class ConfigList<T extends ConfigItem> extends ConfigItem implements Conf
 				child.Path = childPath.startsWith(this.getPath()) ? childPath : this.getPath()+(childPath ? ('.'+i+'.'+child.getPath()) : '')
 		}
 		this.Children.splice(i,0,child)
+
 	}
 	public removeChildAtIndex(i:number) {
 		if(i >= this.Value.length) return
