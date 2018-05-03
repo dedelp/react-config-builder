@@ -35,7 +35,7 @@ export class ConfigGroupList extends ConfigList<ConfigGroup> {
 	}
 	public export() {
 		return Object.assign({}, super.export(), { 
-			Template: this.Template.export(),
+			Template: this.Template instanceof ConfigItem ? this.Template.export() : this.Template,
 			KeyPath:this.KeyPath
 		})
 	}

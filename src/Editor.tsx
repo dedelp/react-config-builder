@@ -36,9 +36,11 @@ class Editor extends React.Component<ConfigEditorProps, ConfigEditorState> {
 	componentWillMount() {
 	}
 	updateResult(update,rebuild) {
+		const props = this.props
 		this.setState(state => {
 			const {Item,Result} = state
 			var result = Object.assign({},util.flatten(Result),update)
+			//state.Item = props.Item instanceof ConfigItem ? props.Item : importConfigItem(props.Item)
 			state.Result = util.inflate(result)
 		})
 	}
